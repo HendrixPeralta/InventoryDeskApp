@@ -1,3 +1,5 @@
-*.db
+
 *.pdf
 InventoryApp_DB.db
+*.sqlite
+*.db
