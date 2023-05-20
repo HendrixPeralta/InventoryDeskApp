@@ -7,10 +7,65 @@ def create_db():
     cur = conn.cursor()
 
     cur.execute('DROP TABLE IF EXISTS Items')
-    cur.execute('''CREATE TABLE Items (name TEXT, description Text, group1 Text,
-                model Text, brand Integer, external_code Text,
-                quantity Integer, location Integer, group2 Integer, descr2 Integer,
-                min Integer, max Integer, Importance Integer, seller Integer, photo Text)''')
+    try:
+        cur.execute('''CREATE TABLE Items (
+                                            id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
+                                            name TEXT, 
+                                            description Text, 
+                                            group1_id Integer,
+                                            model Text, 
+                                            brand_id Integer, 
+                                            external_code Text,
+                                            quantity Integer, 
+                                            location_id Integer, 
+                                            group2_id Integer, 
+                                            descr2 Text,
+                                            minimum Integer, 
+                                            maximum Integer, 
+                                            Importance Integer, 
+                                            seller_id Integer, 
+                                            photo Text)''')
+    except sqlite3.Error as e:
+        print("An error occurred:", e)
+
+    try:
+        cur.execute('''CREATE TABLE group1 (
+                                            id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
+                                            name TEXT, 
+                                            description Text)''')
+    except sqlite3.Error as e:
+        print("An error occurred:", e)
+
+    try:
+        cur.execute('''CREATE TABLE group2 (
+                                            id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
+                                            name TEXT, 
+                                            description Text)''')
+    except sqlite3.Error as e:
+        print("An error occurred:", e)
+
+    try:
+        cur.execute('''CREATE TABLE location (
+                                            id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
+                                            name TEXT, 
+                                            description Text)''')
+    except sqlite3.Error as e:
+        print("An error occurred:", e)
+
+    try:
+        cur.execute('''CREATE TABLE brand (
+                                            id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
+                                            name TEXT)''')
+    except sqlite3.Error as e:
+        print("An error occurred:", e)
+
+
+    try:
+        cur.execute('''CREATE TABLE seller (
+                                            id  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
+                                            name TEXT)''')
+    except sqlite3.Error as e:
+        print("An error occurred:", e)
 
     cur.close()
     conn.close()
