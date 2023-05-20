@@ -1,9 +1,11 @@
-# This is a sample Python script.
+
 import sqlite3
 import DB
+
+
 class item():
     def __init__(self, name, description, group, model, brand, external_code, quantity, location,
-                  group2=None, descr2=None, minimum=None, maximum=None, importance=None, seller=None, photo=None):
+                 group2=None, descr2=None, minimum=None, maximum=None, importance=None, seller=None, photo=None):
         self.name = name
         self.description = description
         self.group = group
@@ -28,30 +30,25 @@ class item():
         if self.quantity < 0:
             self.quantity = 0
 
-conn = sqlite3.connect('InventoryApp_DB')
-cur = conn.cursor()
 
-cur.execute('DROP TABLE IF EXISTS Tracks')
-cur.execute('CREATE TABLE Tracks (title TEXT, plays INTEGER)')
-def create_db():
-    DB.start_db()
+DB.create_db()
 
 
 a = item("n", "d", "g", "m", "b", "c", 1, 2)
 print(a.quantity)
-#print(a.description)
-#print(a.model)
-#print(a.brand)
-#print(a.quantity)
-#print(a.location)
+# print(a.description)
+# print(a.model)
+# print(a.brand)
+# print(a.quantity)
+# print(a.location)
 
-b = item("n", "d", "g", "m","b", "c", 3, 2)
+b = item("n", "d", "g", "m", "b", "c", 3, 2)
 print(b.quantity)
-#print(a.description)
-#print(a.model)
-#print(a.brand)
-#print(a.quantity)
-#print(a.location)
+# print(a.description)
+# print(a.model)
+# print(a.brand)
+# print(a.quantity)
+# print(a.location)
 
 a.add_quantity(4)
 print(a.quantity)
