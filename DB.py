@@ -6,8 +6,11 @@ def create_db():
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
 
-    cur.execute('DROP TABLE IF EXISTS Tracks')
-    cur.execute('CREATE TABLE Tracks (title TEXT, plays INTEGER)')
+    cur.execute('DROP TABLE IF EXISTS Items')
+    cur.execute('''CREATE TABLE Items (name TEXT, description Text, group1 Text,
+                model Text, brand Integer, external_code Text,
+                quantity Integer, location Integer, group2 Integer, descr2 Integer,
+                min Integer, max Integer, Importance Integer, seller Integer, photo Text)''')
 
     cur.close()
     conn.close()
@@ -23,16 +26,18 @@ def add_track():
                 ('prueba 3 ', 15))
     conn.commit()
 
-    print('Tracks:')
-    cur.execute('SELECT title, plays FROM Tracks')
-    for row in cur:
-        print(row)
+    cur.close()
+    conn.close()
 
-    #   cur.execute('DELETE FROM Tracks WHERE plays < 100')
+
+def add_items(name):
+    conn = sqlite3.connect('InventoryApp_DB.db')
+    cur = conn.cursor()
+
+    cur.execute('DELETE FROM Tracks WHERE name = ?', name)
     conn.commit()
 
     cur.close()
     conn.close()
 
-
-#add_track()
+# add_track()
