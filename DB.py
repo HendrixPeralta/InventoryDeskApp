@@ -72,9 +72,33 @@ def create_db():
     except sqlite3.Error as e:
         print("An error occurred:", e)
 
+    # Creates added table
+    try:
+        cur.execute('''CREATE TABLE added (
+                                            id  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
+                                            item_id Integer
+                                            quantity Integer
+                                            year Integer
+                                            month Integer
+                                            day Integer)''')
+    except sqlite3.Error as e:
+        print("An error occurred:", e)
+
+
+    # Creates substracted table
+    try:
+        cur.execute('''CREATE TABLE substracted (
+                                            id  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
+                                            item_id Integer
+                                            quantity Integer
+                                            year Integer
+                                            month Integer
+                                            day Integer)''')
+    except sqlite3.Error as e:
+        print("An error occurred:", e)
+
     cur.close()
     conn.close()
-
 
 def add_item(item):
     conn = sqlite3.connect('InventoryApp_DB.db')
