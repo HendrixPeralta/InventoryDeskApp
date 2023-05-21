@@ -22,19 +22,17 @@ class item():
         self.seller = seller
         self.photo = photo
 
-    def add_quantity(self, quantity):
-        self.quantity = self.quantity + quantity
 
-    def substract_quantity(self, quantity):
-        self.quantity = self.quantity - quantity
-        if self.quantity < 0:
-            self.quantity = 0
+a = item("pname", "pdes", "pGroup", "pmode", "pbrand", "pexternal", 3, "plocation")
+print(a.group)
+DB.delete_all_items()
 
+DB.add_item(a)
 
-DB.create_db()
+#DB.create_db()
 
 
-a = item("n", "d", "g", "m", "b", "c", 1, 2)
+b = item("n", "d", "g", "m", "b", "c", 1, 2)
 print(a.quantity)
 # print(a.description)
 # print(a.model)
@@ -50,8 +48,3 @@ print(b.quantity)
 # print(a.quantity)
 # print(a.location)
 
-a.add_quantity(4)
-print(a.quantity)
-
-a.substract_quantity(7)
-print(a.quantity)
