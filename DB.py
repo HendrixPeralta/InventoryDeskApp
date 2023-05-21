@@ -98,6 +98,7 @@ def add_item(item):
     conn.close()
 
 
+
 # Deletes all the items from the tables
 def delete_all_items():
     conn = sqlite3.connect('InventoryApp_DB.db')
