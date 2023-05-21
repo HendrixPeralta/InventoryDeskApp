@@ -1,4 +1,5 @@
 import sqlite3
+import datetime
 
 
 def create_db():
@@ -6,7 +7,19 @@ def create_db():
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
 
-    cur.execute('DROP TABLE IF EXISTS Items')
+    # Drops all tables
+    # -------------------------------------------
+
+    # Get the list of table names excluding 'sqlite_sequence'
+    cur.execute("SELECT name FROM sqlite_master WHERE type='table' AND name != 'sqlite_sequence';")
+    table_names = cur.fetchall()
+
+    # Iterate over the table names and drop each table
+    for table in table_names:
+        cur.execute(f"DROP TABLE {table[0]};")
+
+    # -------------------------------------------
+
     # Creates Main table ITEMS
     try:
         cur.execute('''CREATE TABLE Items (
@@ -76,23 +89,22 @@ def create_db():
     try:
         cur.execute('''CREATE TABLE added (
                                             id  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
-                                            item_id Integer
-                                            quantity Integer
-                                            year Integer
-                                            month Integer
+                                            item_id Integer,
+                                            quantity Integer,
+                                            year Integer,
+                                            month Integer,
                                             day Integer)''')
     except sqlite3.Error as e:
         print("An error occurred:", e)
-
 
     # Creates substracted table
     try:
         cur.execute('''CREATE TABLE substracted (
                                             id  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
-                                            item_id Integer
-                                            quantity Integer
-                                            year Integer
-                                            month Integer
+                                            item_id Integer,
+                                            quantity Integer,
+                                            year Integer,
+                                            month Integer,
                                             day Integer)''')
     except sqlite3.Error as e:
         print("An error occurred:", e)
@@ -100,16 +112,23 @@ def create_db():
     cur.close()
     conn.close()
 
+
 def add_item(item):
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
 
     # Check of Group 1 exist if it does retrieves the row id
 
+    id = check_item(item)
     item.group = check_group1(item)
     item.location = check_location(item)
     item.brand = check_brand(item)
     item.seller = check_seller(item)
+
+    current_date = datetime.date.today()
+    year_value = current_date.year
+    month_value = current_date.month
+    day_value = current_date.day
 
     cur.execute('''INSERT INTO Items (name, description, group1_id, model, brand_id, external_code, 
                     quantity, location_id,  seller_id, group2_id, descr2, minimum, maximum, Importance,
@@ -118,6 +137,9 @@ def add_item(item):
                  item.quantity, item.location, item.seller, item.group2, item.des2, item.max,
                  item.min, item.importance, item.photo))
 
+    cur.execute('''INSERT INTO added (item_id, quantity, year, month, day) 
+                VALUES (?, ?, ?, ?, ?)''',
+                (id, item.quantity, year_value, month_value, day_value))
     conn.commit()
 
     cur.close()
@@ -151,6 +173,32 @@ def delete_all_items():
 
     cur.close()
     conn.close()
+
+
+def check_item(item):
+    conn = sqlite3.connect('InventoryApp_DB.db')
+    cur = conn.cursor()
+
+    cur.execute('''Select * From Items where name = ?''', (item.name,))
+    row = cur.fetchone()
+
+    if row:
+        print("whe found the Items: ", (item.name,))
+        cur.close()
+        conn.close()
+        return row[0]
+
+    else:
+        print("the ITEM doesnt exist")
+        cur.execute('''Insert into Items (name) Values (?)''', (item.name,))
+        conn.commit()
+
+        cur.execute('''Select * From Items where name =?''', (item.name,))
+        row = cur.fetchone()
+        print("a new item was created ", item.name, row[0])
+        cur.close()
+        conn.close()
+        return row[0]
 
 
 # Check of Group 1 exist if it does retrieves the row id if not insert it in the table
