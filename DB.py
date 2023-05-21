@@ -84,19 +84,20 @@ def add_item(item):
 
     item.group = check_group1(item)
     item.location = check_location(item)
+    item.brand = check_brand(item)
+    item.seller = check_seller(item)
 
     cur.execute('''INSERT INTO Items (name, description, group1_id, model, brand_id, external_code, 
-                    quantity, location_id, group2_id, descr2, minimum, maximum, Importance, seller_id,
+                    quantity, location_id,  seller_id, group2_id, descr2, minimum, maximum, Importance,
                     photo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
                 (item.name, item.description, item.group, item.model, item.brand, item.ext_code,
-                 item.quantity, item.location, item.group2, item.des2, item.max, item.min,
-                 item.importance, item.seller, item.photo))
+                 item.quantity, item.location, item.seller, item.group2, item.des2, item.max,
+                 item.min, item.importance, item.photo))
 
     conn.commit()
 
     cur.close()
     conn.close()
-
 
 
 # Deletes all the items from the tables
@@ -211,3 +212,58 @@ def check_location(item):
         conn.close()
         return row[0]
 
+
+# Check of BRAND exist if it does retrieves the row id if not insert it in the table
+# Recieves a item object
+def check_brand(item):
+    conn = sqlite3.connect('InventoryApp_DB.db')
+    cur = conn.cursor()
+
+    cur.execute('''Select * From brand where name = ?''', (item.brand,))
+    row = cur.fetchone()
+
+    if row:
+        print("whe found the brand: ", (item.brand,))
+        cur.close()
+        conn.close()
+        return row[0]
+
+    else:
+        print("the brand doesnt exist")
+        cur.execute('''Insert into brand (name) Values (?)''', (item.brand,))
+        conn.commit()
+
+        cur.execute('''Select * From brand where name =?''', (item.brand,))
+        row = cur.fetchone()
+        print("a new brand was created ", item.brand, row[0])
+        cur.close()
+        conn.close()
+        return row[0]
+
+
+# Check of Seller exist if it does retrieves the row id if not insert it in the table
+# Recieves a item object
+def check_seller(item):
+    conn = sqlite3.connect('InventoryApp_DB.db')
+    cur = conn.cursor()
+
+    cur.execute('''Select * From seller where name = ?''', (item.seller,))
+    row = cur.fetchone()
+
+    if row:
+        print("whe found the seller: ", (item.seller,))
+        cur.close()
+        conn.close()
+        return row[0]
+
+    else:
+        print("the seller doesnt exist")
+        cur.execute('''Insert into seller (name) Values (?)''', (item.seller,))
+        conn.commit()
+
+        cur.execute('''Select * From seller where name =?''', (item.seller,))
+        row = cur.fetchone()
+        print("a new seller was created ", item.seller, row[0])
+        cur.close()
+        conn.close()
+        return row[0]

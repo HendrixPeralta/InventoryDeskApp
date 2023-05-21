@@ -4,8 +4,8 @@ import DB
 
 
 class item():
-    def __init__(self, name, description, group, model, brand, external_code, quantity, location,
-                 group2=None, descr2=None, minimum=None, maximum=None, importance=None, seller=None, photo=None):
+    def __init__(self, name, description, group, model, brand, external_code, quantity, location, seller,
+                 group2=None, descr2=None, minimum=None, maximum=None, importance=None, photo=None):
         self.name = name
         self.description = description
         self.group = group
@@ -23,7 +23,7 @@ class item():
         self.photo = photo
 
 
-a = item("pname", "pdes", "pGroup", "pmode", "pbrand", "pexternal", 3, "plocation")
+a = item("pname", "pdes", "pGroup", "pmode", "pbrand", "pexternal", 3, "plocation", "pseller")
 print(a.group)
 DB.delete_all_items()
 
@@ -32,16 +32,16 @@ DB.add_item(a)
 #DB.create_db()
 
 
-b = item("n", "d", "g", "m", "b", "c", 1, 2)
-print(a.quantity)
+#b = item("n", "d", "g", "m", "b", "c", 1, 2)
+#print(a.quantity)
 # print(a.description)
 # print(a.model)
 # print(a.brand)
 # print(a.quantity)
 # print(a.location)
 
-b = item("n", "d", "g", "m", "b", "c", 3, 2)
-print(b.quantity)
+#b = item("n", "d", "g", "m", "b", "c", 3, 2)
+#print(b.quantity)
 # print(a.description)
 # print(a.model)
 # print(a.brand)
