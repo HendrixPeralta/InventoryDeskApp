@@ -113,7 +113,60 @@ def create_db():
     conn.close()
 
 
+def add_quantity(item, x):
+    conn = sqlite3.connect('InventoryApp_DB.db')
+    cur = conn.cursor()
+
+    id = check_item(item)
+
+    cur.execute('''Select quantity from Items where id =?''', (id,))
+    old_quantity = cur.fetchone()[0]
+    print(old_quantity)
+
+    new_quantity = old_quantity + x
+
+    cur.execute("UPDATE your_table_name SET quantity = ? WHERE item_id = ?", (new_quantity, id))
+    conn.commit()
+
+    cur.close()
+    conn.close()
+
+
 def add_item(item):
+    conn = sqlite3.connect('InventoryApp_DB.db')
+    cur = conn.cursor()
+
+    # Check of Group 1 exist if it does retrieves the row id
+
+    id = check_item(item)
+    item.group = check_group1(item)
+    item.location = check_location(item)
+    item.brand = check_brand(item)
+    item.seller = check_seller(item)
+
+    current_date = datetime.date.today()
+    year_value = current_date.year
+    month_value = current_date.month
+    day_value = current_date.day
+
+    if id is None:
+        cur.execute('''INSERT INTO Items (name, description, group1_id, model, brand_id, external_code, 
+                        quantity, location_id,  seller_id, group2_id, descr2, minimum, maximum, Importance,
+                        photo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+                    (item.name, item.description, item.group, item.model, item.brand, item.ext_code,
+                     item.quantity, item.location, item.seller, item.group2, item.des2, item.max,
+                     item.min, item.importance, item.photo))
+
+        cur.execute('''INSERT INTO added (item_id, quantity, year, month, day) 
+                    VALUES (?, ?, ?, ?, ?)''',
+                    (id, item.quantity, year_value, month_value, day_value))
+        conn.commit()
+
+    cur.close()
+    conn.close()
+
+
+def substract_item(item):
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
 
