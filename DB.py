@@ -7,6 +7,7 @@ def create_db():
     cur = conn.cursor()
 
     cur.execute('DROP TABLE IF EXISTS Items')
+    # Creates Main table ITEMS
     try:
         cur.execute('''CREATE TABLE Items (
                                             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
@@ -28,6 +29,7 @@ def create_db():
     except sqlite3.Error as e:
         print("An error occurred:", e)
 
+    # Creates Groups 1 table
     try:
         cur.execute('''CREATE TABLE group1 (
                                             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
@@ -36,6 +38,7 @@ def create_db():
     except sqlite3.Error as e:
         print("An error occurred:", e)
 
+    # Creates Groups 2 Table
     try:
         cur.execute('''CREATE TABLE group2 (
                                             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
@@ -44,6 +47,7 @@ def create_db():
     except sqlite3.Error as e:
         print("An error occurred:", e)
 
+    # Creates Location table
     try:
         cur.execute('''CREATE TABLE location (
                                             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
@@ -52,6 +56,7 @@ def create_db():
     except sqlite3.Error as e:
         print("An error occurred:", e)
 
+    # Creates Brands table
     try:
         cur.execute('''CREATE TABLE brand (
                                             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
@@ -59,7 +64,7 @@ def create_db():
     except sqlite3.Error as e:
         print("An error occurred:", e)
 
-
+    # Creates Seller table
     try:
         cur.execute('''CREATE TABLE seller (
                                             id  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
@@ -71,28 +76,137 @@ def create_db():
     conn.close()
 
 
-def add_track():
+def add_item(item):
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
 
-    cur.execute('INSERT INTO Tracks (title, plays) VALUES (?, ?)',
-                ('Prueba 4', 12))
-    cur.execute('INSERT INTO Tracks (title, plays) VALUES (?, ?)',
-                ('prueba 3 ', 15))
+    # Check of Group 1 exist if it does retrieves the row id
+
+    item.group = check_group1(item)
+    item.location = check_location(item)
+
+    cur.execute('''INSERT INTO Items (name, description, group1_id, model, brand_id, external_code, 
+                    quantity, location_id, group2_id, descr2, minimum, maximum, Importance, seller_id,
+                    photo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+                (item.name, item.description, item.group, item.model, item.brand, item.ext_code,
+                 item.quantity, item.location, item.group2, item.des2, item.max, item.min,
+                 item.importance, item.seller, item.photo))
+
     conn.commit()
 
     cur.close()
     conn.close()
 
 
-def add_items(name):
+# Deletes all the items from the tables
+def delete_all_items():
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
 
-    cur.execute('DELETE FROM Tracks WHERE name = ?', name)
+    cur.execute('DELETE FROM Items')
     conn.commit()
+
+    cur.execute('DELETE FROM group1')
+    conn.commit()
+
+    cur.execute('DELETE FROM group2')
+    conn.commit()
+
+    cur.execute('DELETE FROM seller')
+    conn.commit()
+
+    cur.execute('DELETE FROM brand')
+    conn.commit()
+
+    cur.execute('DELETE FROM location')
+    conn.commit()
+
+    print('All items deleted.')
 
     cur.close()
     conn.close()
 
-# add_track()
+
+# Check of Group 1 exist if it does retrieves the row id if not insert it in the table
+# Recieves a item object
+def check_group1(item):
+    conn = sqlite3.connect('InventoryApp_DB.db')
+    cur = conn.cursor()
+
+    cur.execute('''Select * From group1 where name = ?''', (item.group,))
+    row = cur.fetchone()
+
+    if row:
+        print("whe found the group: ", (item.group,))
+        cur.close()
+        conn.close()
+        return row[0]
+
+    else:
+        print("the group doesnt exist")
+        cur.execute('''Insert into group1 (name) Values (?)''', (item.group,))
+        conn.commit()
+
+        cur.execute('''Select * From group1 where name =?''', (item.group,))
+        row = cur.fetchone()
+        print("a new item was created ", item.group, row[0])
+        cur.close()
+        conn.close()
+        return row[0]
+
+
+# Check of Group 2 exist if it does retrieves the row id if not insert it in the table
+# Recieves a item object
+def check_group2(item):
+    conn = sqlite3.connect('InventoryApp_DB.db')
+    cur = conn.cursor()
+
+    cur.execute('''Select * From group2 where name = ?''', (item.group2,))
+    row = cur.fetchone()
+
+    if row:
+        print("whe found the group2: ", (item.group,))
+        cur.close()
+        conn.close()
+        return row[0]
+
+    else:
+        print("the group2 doesnt exist")
+        cur.execute('''Insert into group2 (name) Values (?)''', (item.group,))
+        conn.commit()
+
+        cur.execute('''Select * From group2 where name =?''', (item.group,))
+        row = cur.fetchone()
+        print("a new item was created ", item.group2, row[0])
+        cur.close()
+        conn.close()
+        return row[0]
+
+
+# Check of LOCATION exist if it does retrieves the row id if not insert it in the table
+# Recieves a item object
+def check_location(item):
+    conn = sqlite3.connect('InventoryApp_DB.db')
+    cur = conn.cursor()
+
+    cur.execute('''Select * From location where name = ?''', (item.location,))
+    row = cur.fetchone()
+
+    if row:
+        print("whe found the location: ", (item.location,))
+        cur.close()
+        conn.close()
+        return row[0]
+
+    else:
+        print("the location doesnt exist")
+        cur.execute('''Insert into location (name) Values (?)''', (item.location,))
+        conn.commit()
+
+        cur.execute('''Select * From location where name =?''', (item.location,))
+        row = cur.fetchone()
+        print("a new item was created ", item.location, row[0])
+        cur.close()
+        conn.close()
+        return row[0]
+
