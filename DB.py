@@ -186,33 +186,54 @@ def add_log(item):
     conn.close()
 
 
-def substract_item(item):
+def subtract_quantity(item, x):
+    item_id = check_item(item)
+
+    # Check of Group 1 exist if it does retrieve the row id
+
+    if item_id is not None:
+
+        conn = sqlite3.connect('InventoryApp_DB.db')
+        cur = conn.cursor()
+
+        cur.execute('''Select quantity from Items where id =?''', (item_id,))
+        old_quantity = cur.fetchone()
+        print("$" * 30, "old quantity!!!:", old_quantity)
+        print("x" * 30, x)
+
+        new_quantity = int(old_quantity[0]) - x
+
+        if new_quantity >= 0:
+            print("$" * 30, "NEW quantity!!!:", new_quantity)
+            cur.execute("UPDATE items SET quantity = ? WHERE id = ?", (new_quantity, item_id))
+            conn.commit()
+
+        else:
+            print("This operation can not be completed: NOT enough items")
+
+        cur.close()
+        conn.close()
+
+    else:
+        print("item check* This item DOES NOT exist")
+
+
+def subtract_log(item):
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
 
-    # Check of Group 1 exist if it does retrieves the row id
-
-    id = check_item(item)
-    item.group = check_group1(item)
-    item.location = check_location(item)
-    item.brand = check_brand(item)
-    item.seller = check_seller(item)
+    item_id = check_item(item)
 
     current_date = datetime.date.today()
     year_value = current_date.year
     month_value = current_date.month
     day_value = current_date.day
 
-    cur.execute('''INSERT INTO Items (name, description, group1_id, model, brand_id, external_code, 
-                    quantity, location_id,  seller_id, group2_id, descr2, minimum, maximum, Importance,
-                    photo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
-                (item.name, item.description, item.group, item.model, item.brand, item.ext_code,
-                 item.quantity, item.location, item.seller, item.group2, item.des2, item.max,
-                 item.min, item.importance, item.photo))
-
+    print("*" * 30, "ID!!!!!")
+    print(item_id)
     cur.execute('''INSERT INTO added (item_id, quantity, year, month, day) 
                 VALUES (?, ?, ?, ?, ?)''',
-                (id, item.quantity, year_value, month_value, day_value))
+                (item_id, item.quantity, year_value, month_value, day_value))
     conn.commit()
 
     cur.close()
