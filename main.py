@@ -74,6 +74,6 @@ for item in new_items:
     DB.add_item(item)
 
 for item in new_items:
-    DB.subtract_quantity(new_items[random.randint(0, len(new_items)-1)], random.randint(50, 100))
+    DB.subtract_quantity(new_items[random.randint(0, len(new_items)-1)], random.randint(10, 50))
 
 
