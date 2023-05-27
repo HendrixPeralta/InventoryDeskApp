@@ -133,16 +133,11 @@ def add_quantity(item, x):
 
 
 def add_item(item):
-    id = check_item(item)
+    item_id = check_item(item)
 
-    # Check of Group 1 exist if it does retrieves the row id
+    # Check of Group 1 exist if it does retrieve the row id
 
-    if id is None:
-
-        current_date = datetime.date.today()
-        year_value = current_date.year
-        month_value = current_date.month
-        day_value = current_date.day
+    if item_id is None:
 
         item.group = check_group1(item)
         item.location = check_location(item)
@@ -153,22 +148,42 @@ def add_item(item):
         cur = conn.cursor()
 
         cur.execute('''INSERT INTO Items (name, description, group1_id, model, brand_id, external_code, 
-                        quantity, location_id,  seller_id, group2_id, descr2, minimum, maximum, Importance,
+                        quantity, location_id,  seller_id, group2_id, descr2, maximum, minimum, Importance,
                         photo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
                     (item.name, item.description, item.group, item.model, item.brand, item.ext_code,
                      item.quantity, item.location, item.seller, item.group2, item.des2, item.max,
                      item.min, item.importance, item.photo))
 
-        cur.execute('''INSERT INTO added (item_id, quantity, year, month, day) 
-                    VALUES (?, ?, ?, ?, ?)''',
-                    (id, item.quantity, year_value, month_value, day_value))
         conn.commit()
-
         cur.close()
         conn.close()
 
+        add_log(item)
+
     else:
         print("item check* This item already exist")
+
+
+def add_log(item):
+    conn = sqlite3.connect('InventoryApp_DB.db')
+    cur = conn.cursor()
+
+    item_id = check_item(item)
+
+    current_date = datetime.date.today()
+    year_value = current_date.year
+    month_value = current_date.month
+    day_value = current_date.day
+
+    print("*" * 30, "ID!!!!!")
+    print(item_id)
+    cur.execute('''INSERT INTO added (item_id, quantity, year, month, day) 
+                VALUES (?, ?, ?, ?, ?)''',
+                (item_id, item.quantity, year_value, month_value, day_value))
+    conn.commit()
+
+    cur.close()
+    conn.close()
 
 
 def substract_item(item):
@@ -237,7 +252,7 @@ def check_item(item):
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
 
-    cur.execute('''Select * From Items where name = ?''', (item.name,))
+    cur.execute('''Select * From Items where external_code = ?''', (item.ext_code,))
     row = cur.fetchone()
 
     if row:
@@ -248,19 +263,11 @@ def check_item(item):
 
     else:
         print("the ITEM doesnt exist")
-#        cur.execute('''Insert into Items (name) Values (?)''', (item.name,))
-#        conn.commit()
-
-#        cur.execute('''Select * From Items where name =?''', (item.name,))
-#        row = cur.fetchone()
-#        print("a new item was created ", item.name, row[0])
-#        cur.close()
-#        conn.close()
         return None
 
 
-# Check of Group 1 exist if it does retrieves the row id if not insert it in the table
-# Recieves a item object
+# Check of Group 1 exist if it does retrieve the row id if not insert it in the table
+# Receives an item object
 def check_group1(item):
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
@@ -287,8 +294,8 @@ def check_group1(item):
         return row[0]
 
 
-# Check of Group 2 exist if it does retrieves the row id if not insert it in the table
-# Recieves a item object
+# Check of Group 2 exist if it does retrieve the row id if not insert it in the table
+# Receives an item object
 def check_group2(item):
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
@@ -315,8 +322,8 @@ def check_group2(item):
         return row[0]
 
 
-# Check of LOCATION exist if it does retrieves the row id if not insert it in the table
-# Recieves a item object
+# Check of LOCATION exist if it does retrieve the row id if not insert it in the table
+# Receives an item object
 def check_location(item):
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
@@ -343,8 +350,8 @@ def check_location(item):
         return row[0]
 
 
-# Check of BRAND exist if it does retrieves the row id if not insert it in the table
-# Recieves a item object
+# Check of BRAND exist if it does retrieve the row id if not insert it in the table
+# Receives an item object
 def check_brand(item):
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
@@ -371,8 +378,8 @@ def check_brand(item):
         return row[0]
 
 
-# Check of Seller exist if it does retrieves the row id if not insert it in the table
-# Recieves a item object
+# Check of Seller exist if it does retrieve the row id if not insert it in the table
+# Receives an item object
 def check_seller(item):
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
