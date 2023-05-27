@@ -113,6 +113,35 @@ def create_db():
     conn.close()
 
 
+# Deletes all the items from the tables
+def delete_all_items():
+    conn = sqlite3.connect('InventoryApp_DB.db')
+    cur = conn.cursor()
+
+    cur.execute('DELETE FROM Items')
+    conn.commit()
+
+    cur.execute('DELETE FROM group1')
+    conn.commit()
+
+    cur.execute('DELETE FROM group2')
+    conn.commit()
+
+    cur.execute('DELETE FROM seller')
+    conn.commit()
+
+    cur.execute('DELETE FROM brand')
+    conn.commit()
+
+    cur.execute('DELETE FROM location')
+    conn.commit()
+
+    print('All items deleted.')
+
+    cur.close()
+    conn.close()
+
+
 def add_item(item):
     item_id = check_item(item)
 
@@ -169,28 +198,6 @@ def add_quantity(item, x):
     add_log(item, x)
 
 
-def add_log(item, x):
-    conn = sqlite3.connect('InventoryApp_DB.db')
-    cur = conn.cursor()
-
-    item_id = check_item(item)
-
-    current_date = datetime.date.today()
-    year_value = current_date.year
-    month_value = current_date.month
-    day_value = current_date.day
-
-    print("*" * 30, "ID!!!!!")
-    print(item_id)
-    cur.execute('''INSERT INTO added (item_id, quantity, year, month, day) 
-                VALUES (?, ?, ?, ?, ?)''',
-                (item_id, x, year_value, month_value, day_value))
-    conn.commit()
-
-    cur.close()
-    conn.close()
-
-
 def subtract_quantity(item, x):
     item_id = check_item(item)
 
@@ -224,6 +231,28 @@ def subtract_quantity(item, x):
         print("item check* This item DOES NOT exist")
 
 
+# ===========================================================================
+#  PASSIVE FUNCTIONS
+
+
+def check_item(item):
+    conn = sqlite3.connect('InventoryApp_DB.db')
+    cur = conn.cursor()
+
+    cur.execute('''Select * From Items where external_code = ?''', (item.ext_code,))
+    row = cur.fetchone()
+
+    if row:
+        print("whe found the Items: ", (item.name,))
+        cur.close()
+        conn.close()
+        return row[0]
+
+    else:
+        print("the ITEM doesnt exist")
+        return None
+
+
 def subtract_log(item, x):
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
@@ -246,51 +275,26 @@ def subtract_log(item, x):
     conn.close()
 
 
-# Deletes all the items from the tables
-def delete_all_items():
+def add_log(item, x):
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
 
-    cur.execute('DELETE FROM Items')
-    conn.commit()
+    item_id = check_item(item)
 
-    cur.execute('DELETE FROM group1')
-    conn.commit()
+    current_date = datetime.date.today()
+    year_value = current_date.year
+    month_value = current_date.month
+    day_value = current_date.day
 
-    cur.execute('DELETE FROM group2')
+    print("*" * 30, "ID!!!!!")
+    print(item_id)
+    cur.execute('''INSERT INTO added (item_id, quantity, year, month, day) 
+                VALUES (?, ?, ?, ?, ?)''',
+                (item_id, x, year_value, month_value, day_value))
     conn.commit()
-
-    cur.execute('DELETE FROM seller')
-    conn.commit()
-
-    cur.execute('DELETE FROM brand')
-    conn.commit()
-
-    cur.execute('DELETE FROM location')
-    conn.commit()
-
-    print('All items deleted.')
 
     cur.close()
     conn.close()
-
-
-def check_item(item):
-    conn = sqlite3.connect('InventoryApp_DB.db')
-    cur = conn.cursor()
-
-    cur.execute('''Select * From Items where external_code = ?''', (item.ext_code,))
-    row = cur.fetchone()
-
-    if row:
-        print("whe found the Items: ", (item.name,))
-        cur.close()
-        conn.close()
-        return row[0]
-
-    else:
-        print("the ITEM doesnt exist")
-        return None
 
 
 # Check of Group 1 exist if it does retrieve the row id if not insert it in the table
