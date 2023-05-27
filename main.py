@@ -46,7 +46,7 @@ DB.create_db()
 
 new_items = []
 
-for i in range(50):
+for i in range(5):
     name = f"Item {i + 1}"
     description = f"Description {i + 1}"
     group = f"Group {random.randint(1, 10)}"
@@ -73,5 +73,7 @@ for i in range(50):
 for item in new_items:
     DB.add_item(item)
 
-# DB.add_quantity(a, 10)
+for item in new_items:
+    DB.subtract_quantity(new_items[random.randint(0, len(new_items)-1)], random.randint(50, 100))
+
 
