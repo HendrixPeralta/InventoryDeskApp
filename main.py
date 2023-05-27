@@ -1,6 +1,7 @@
 import sqlite3
 import DB
 import random
+import functions
 
 
 class item:
@@ -39,9 +40,54 @@ class item:
                f"Importance: {self.importance}\n" \
                f"Photo: {self.photo}"
 
+    # Map user input to corresponding functions
+    options = {
+        '1': functions.add_item,
+        '2': functions.delete_item,
+        '3': functions.add_quantity,
+        '4': functions.subtract_quantity,
+        '5': functions.edit_item,
+        '6': functions.search_item,
+        '98': functions.delete_logs,
+        '99': functions.delete_database,
+    }
 
-DB.delete_all_items()
-DB.create_db()
+    button = None
+
+    # Main menu loop
+    while button != '0':
+        print(
+            """
+            1 = Add new item
+            2 = *** Delete an item ***
+            3 = Add quantity
+            4 = Subtract quantity
+            5 = *** Edit item ***
+            6 = *** Search item ***
+
+            98 = *** DELETE logs ***
+            99 = Delete database
+            0 = QUIT
+            """
+        )
+        button = input("Enter your choice: ")
+
+        # Get the corresponding action based on user input
+        action = options.get(button)
+        if action:
+            # Execute the chosen action
+            action()
+        elif button == '0':
+            # Quit the program
+            print("Quitting the program...")
+            # Add any necessary cleanup or exit code here
+        else:
+            # Handle invalid input
+            print("Invalid choice. Please enter a valid option.")
+
+    print("Program exited.")
+    DB.delete_all_items()
+    DB.create_db()
 
 
 new_items = []
