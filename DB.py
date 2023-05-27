@@ -133,23 +133,25 @@ def add_quantity(item, x):
 
 
 def add_item(item):
-    conn = sqlite3.connect('InventoryApp_DB.db')
-    cur = conn.cursor()
+    id = check_item(item)
 
     # Check of Group 1 exist if it does retrieves the row id
 
-    id = check_item(item)
-    item.group = check_group1(item)
-    item.location = check_location(item)
-    item.brand = check_brand(item)
-    item.seller = check_seller(item)
-
-    current_date = datetime.date.today()
-    year_value = current_date.year
-    month_value = current_date.month
-    day_value = current_date.day
-
     if id is None:
+
+        current_date = datetime.date.today()
+        year_value = current_date.year
+        month_value = current_date.month
+        day_value = current_date.day
+
+        item.group = check_group1(item)
+        item.location = check_location(item)
+        item.brand = check_brand(item)
+        item.seller = check_seller(item)
+
+        conn = sqlite3.connect('InventoryApp_DB.db')
+        cur = conn.cursor()
+
         cur.execute('''INSERT INTO Items (name, description, group1_id, model, brand_id, external_code, 
                         quantity, location_id,  seller_id, group2_id, descr2, minimum, maximum, Importance,
                         photo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
@@ -162,8 +164,11 @@ def add_item(item):
                     (id, item.quantity, year_value, month_value, day_value))
         conn.commit()
 
-    cur.close()
-    conn.close()
+        cur.close()
+        conn.close()
+
+    else:
+        print("item check* This item already exist")
 
 
 def substract_item(item):
@@ -243,15 +248,15 @@ def check_item(item):
 
     else:
         print("the ITEM doesnt exist")
-        cur.execute('''Insert into Items (name) Values (?)''', (item.name,))
-        conn.commit()
+#        cur.execute('''Insert into Items (name) Values (?)''', (item.name,))
+#        conn.commit()
 
-        cur.execute('''Select * From Items where name =?''', (item.name,))
-        row = cur.fetchone()
-        print("a new item was created ", item.name, row[0])
-        cur.close()
-        conn.close()
-        return row[0]
+#        cur.execute('''Select * From Items where name =?''', (item.name,))
+#        row = cur.fetchone()
+#        print("a new item was created ", item.name, row[0])
+#        cur.close()
+#        conn.close()
+        return None
 
 
 # Check of Group 1 exist if it does retrieves the row id if not insert it in the table
