@@ -46,6 +46,8 @@ DB.create_db()
 
 new_items = []
 
+
+
 for i in range(5):
     name = f"Item {i + 1}"
     description = f"Description {i + 1}"

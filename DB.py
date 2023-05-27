@@ -431,3 +431,5 @@ def check_seller(item):
         cur.close()
         conn.close()
         return row[0]
+
+
