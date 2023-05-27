@@ -1,9 +1,9 @@
-
 import sqlite3
 import DB
+import random
 
 
-class item():
+class item:
     def __init__(self, name, description, group, model, brand, external_code, quantity, location, seller,
                  group2=None, des2=None, minimum=None, maximum=None, importance=None, photo=None):
         self.name = name
@@ -40,29 +40,38 @@ class item():
                f"Photo: {self.photo}"
 
 
-a = item("pname", "pdes", "pGroup", "pmode", "pbrand", "pexternal", 3, "plocation", "pseller")
-print(a.group)
 DB.delete_all_items()
-
-print(a)
-DB.add_item(a)
-
-#DB.create_db()
+DB.create_db()
 
 
-#b = item("n", "d", "g", "m", "b", "c", 1, 2)
-#print(a.quantity)
-# print(a.description)
-# print(a.model)
-# print(a.brand)
-# print(a.quantity)
-# print(a.location)
+new_items = []
 
-#b = item("n", "d", "g", "m", "b", "c", 3, 2)
-#print(b.quantity)
-# print(a.description)
-# print(a.model)
-# print(a.brand)
-# print(a.quantity)
-# print(a.location)
+for i in range(50):
+    name = f"Item {i + 1}"
+    description = f"Description {i + 1}"
+    group = f"Group {random.randint(1, 10)}"
+    model = f"Model {i + 1}"
+    brand = f"Brand {i + 1}"
+    external_code = f"Location {random.randint(1, 40)}"
+    quantity = random.randint(50, 100)
+    location = f"Location {random.randint(1, 10)}"
+    seller = f"Seller {random.randint(1, 10)}"
+    group2 = f"Group2 {i + 1}"
+    des2 = f"Description2 {i + 1}"
+    minimum = random.randint(1, 10)
+    maximum = minimum * 10
+    importance = f"Importance {i + 1}"
+    photo = f"Photo {i + 1}"
+
+    items = item(name=name, description=description, group=group, model=model, brand=brand,
+                 external_code=external_code, quantity=quantity, location=location, seller=seller,
+                 group2=group2, des2=des2, minimum=minimum, maximum=maximum,
+                 importance=importance, photo=photo)
+    new_items.append(items)
+
+# adding each item to the db
+for item in new_items:
+    DB.add_item(item)
+
+# DB.add_quantity(a, 10)
 
