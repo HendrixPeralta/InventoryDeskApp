@@ -2,7 +2,6 @@ import random
 import objects
 import DB
 
-
 def item_data_entry():
     new_items = []
     quantity_items = int(input("How many items you want to create: "))
