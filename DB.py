@@ -174,14 +174,12 @@ def add_item(item):
         print("item check* This item already exist")
 
 
-def delete_item(code):
-    item_id = check_item(code)
+def delete_item(item_id):
     if item_id is not None:
-
         conn = sqlite3.connect('InventoryApp_DB.db')
         cur = conn.cursor()
 
-        cur.execute('''Delete FROM Items WHERE external_code = ?''', item_id)
+        cur.execute('''Delete FROM Items WHERE id = ?''', (item_id,))
         print("Item deleted successfully")
 
         conn.commit()
