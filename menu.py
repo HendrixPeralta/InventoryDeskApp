@@ -74,7 +74,8 @@ def add_item():
 
 def delete_item():
     print("You selected option 2 - Delete an item")
-    # Add your code here
+    code = input("Add the code of the item to delete")
+    DB.delete_item(code)
 
 
 def add_quantity():
@@ -84,7 +85,8 @@ def add_quantity():
 
 def subtract_quantity():
     print("You selected option 4 - Subtract quantity")
-    # Add your code here
+    for item in new_items:
+        DB.subtract_quantity(new_items[random.randint(0, len(new_items) - 1)], random.randint(10, 50))
 
 
 def edit_item():
@@ -94,7 +96,8 @@ def edit_item():
 
 def search_item():
     print("You selected option 6 - Search item")
-    # Add your code here
+    code = str(input("Add the code of the item to delete"))
+    DB.look_up(code)
 
 
 def delete_logs():
@@ -105,36 +108,3 @@ def delete_logs():
 def delete_database():
     print("You selected option 99 - Delete database")
     # Add your code here
-
-
-def trash():
-    new_items = []
-    for i in range(5):
-        name = f"Item {i + 1}"
-        description = f"Description {i + 1}"
-        group = f"Group {random.randint(1, 10)}"
-        model = f"Model {i + 1}"
-        brand = f"Brand {i + 1}"
-        external_code = f"Location {random.randint(1, 40)}"
-        quantity = random.randint(50, 100)
-        location = f"Location {random.randint(1, 10)}"
-        seller = f"Seller {random.randint(1, 10)}"
-        group2 = f"Group2 {i + 1}"
-        des2 = f"Description2 {i + 1}"
-        minimum = random.randint(1, 10)
-        maximum = minimum * 10
-        importance = f"Importance {i + 1}"
-        photo = f"Photo {i + 1}"
-
-        items = item(name=name, description=description, group=group, model=model, brand=brand,
-                     external_code=external_code, quantity=quantity, location=location, seller=seller,
-                     group2=group2, des2=des2, minimum=minimum, maximum=maximum,
-                     importance=importance, photo=photo)
-        new_items.append(items)
-
-    # adding each item to the db
-    for item in new_items:
-        DB.add_item(item)
-
-    for item in new_items:
-        DB.subtract_quantity(new_items[random.randint(0, len(new_items) - 1)], random.randint(10, 50))
