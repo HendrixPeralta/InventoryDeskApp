@@ -1,8 +1,8 @@
 import DB
 import menu
 
-DB.delete_all_items()
-DB.create_db()
+#DB.delete_all_items()
+#DB.create_db()
 
 # Map user input to corresponding functions
 options = {
@@ -24,11 +24,11 @@ while button != '0':
     print(
         """
         1 = Add new item
-        2 = *** Delete an item ***
+        2 = Delete an item
         3 = Add quantity
         4 = Subtract quantity
         5 = *** Edit item ***
-        6 = *** Search item ***
+        6 = Search item
 
         98 = *** DELETE logs ***
         99 = Delete database

@@ -75,7 +75,8 @@ def add_item():
 def delete_item():
     print("You selected option 2 - Delete an item")
     code = input("Add the code of the item to delete")
-    DB.delete_item(code)
+    item = DB.look_up(code)
+    DB.delete_item(item)
 
 
 def add_quantity():
@@ -96,7 +97,7 @@ def edit_item():
 
 def search_item():
     print("You selected option 6 - Search item")
-    code = str(input("Add the code of the item to delete"))
+    code = str(input("Add the code of the item to search"))
     DB.look_up(code)
 
 
