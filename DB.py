@@ -174,6 +174,23 @@ def add_item(item):
         print("item check* This item already exist")
 
 
+def delete_item(code):
+    item_id = check_item(code)
+    if item_id is not None:
+
+        conn = sqlite3.connect('InventoryApp_DB.db')
+        cur = conn.cursor()
+
+        cur.execute('''Delete FROM Items WHERE external_code = ?''', item_id)
+        print("Item deleted successfully")
+
+        conn.commit()
+        cur.close()
+        conn.close()
+    else:
+        print("Item not Found")
+
+
 def add_quantity(item, x):
     item_id = check_item(item)
 
@@ -233,6 +250,23 @@ def subtract_quantity(item, x):
 
 # ===========================================================================
 #  PASSIVE FUNCTIONS
+
+def look_up(code):
+    conn = sqlite3.connect('InventoryApp_DB.db')
+    cur = conn.cursor()
+
+    cur.execute('''Select * From Items where external_code = ?''', (code,))
+    row = cur.fetchone()
+
+    if row:
+        print("whe found the Items: ", row)
+        cur.close()
+        conn.close()
+        return row[0]
+
+    else:
+        print("the ITEM was not found")
+        return None
 
 
 def check_item(item):
@@ -435,5 +469,3 @@ def check_seller(item):
         cur.close()
         conn.close()
         return row[0]
-
-
