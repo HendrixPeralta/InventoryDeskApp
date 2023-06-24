@@ -75,13 +75,18 @@ def add_item():
 def delete_item():
     print("You selected option 2 - Delete an item")
     code = input("Add the code of the item to delete")
-    item = DB.look_up(code)
-    DB.delete_item(item)
+    item_id = DB.look_up_id(code)
+    DB.delete_item(item_id)
 
 
 def add_quantity():
     print("You selected option 3 - Add quantity")
-    # Add your code here
+    code = input("Add the code of the item you want to add the quantity")
+    item_id = DB.look_up_id(code)
+    if item_id is None:
+        return
+    new_quantity = input("Insert the amount to add")
+    DB.add_quantity(item_id, int(new_quantity))
 
 
 def subtract_quantity():
@@ -98,7 +103,7 @@ def edit_item():
 def search_item():
     print("You selected option 6 - Search item")
     code = str(input("Add the code of the item to search"))
-    DB.look_up(code)
+    DB.look_up_id(code)
 
 
 def delete_logs():
