@@ -189,11 +189,7 @@ def delete_item(item_id):
         print("Item not Found")
 
 
-def add_quantity(item, x):
-    item_id = check_item(item)
-
-    # Check of Group 1 exist if it does retrieve the row id
-
+def add_quantity(item_id, x):
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
 
@@ -210,7 +206,7 @@ def add_quantity(item, x):
     cur.close()
     conn.close()
 
-    add_log(item, x)
+  #  add_log(item_id, x)
 
 
 def subtract_quantity(item, x):
@@ -249,15 +245,15 @@ def subtract_quantity(item, x):
 # ===========================================================================
 #  PASSIVE FUNCTIONS
 
-def look_up(code):
+def look_up_id(code):
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
 
-    cur.execute('''Select * From Items where external_code = ?''', (code,))
+    cur.execute('''Select id From Items where external_code = ?''', (code,))
     row = cur.fetchone()
 
     if row:
-        print("whe found the Items: ", row)
+        print("whe found the Item: ", row)
         cur.close()
         conn.close()
         return row[0]
