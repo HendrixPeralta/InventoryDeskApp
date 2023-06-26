@@ -87,10 +87,11 @@ def create_db():
 
     # Creates added table
     try:
-        cur.execute('''CREATE TABLE added (
+        cur.execute('''CREATE TABLE add_log (
                                             id  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
                                             item_id Integer,
-                                            quantity Integer,
+                                            old_quantity Integer,
+                                            new_quantity Integer,
                                             year Integer,
                                             month Integer,
                                             day Integer)''')
@@ -99,15 +100,17 @@ def create_db():
 
     # Creates subtracted table
     try:
-        cur.execute('''CREATE TABLE subtracted (
+        cur.execute('''CREATE TABLE subtract_log (
                                             id  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
                                             item_id Integer,
-                                            quantity Integer,
+                                            old_quantity Integer,
+                                            new_quantity Integer,
                                             year Integer,
                                             month Integer,
                                             day Integer)''')
     except sqlite3.Error as e:
         print("An error occurred:", e)
+
 
     cur.close()
     conn.close()
