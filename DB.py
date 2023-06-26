@@ -209,37 +209,41 @@ def add_quantity(item_id, x):
   #  add_log(item_id, x)
 
 
-def subtract_quantity(item, x):
-    item_id = check_item(item)
+def subtract_quantity(item_id, x):
+    conn = sqlite3.connect('InventoryApp_DB.db')
+    cur = conn.cursor()
 
-    # Check of Group 1 exist if it does retrieve the row id
+    cur.execute('''Select quantity from Items where id =?''', (item_id,))
+    old_quantity = cur.fetchone()
+    print("$" * 30, "old quantity!!!:", old_quantity)
+    print("-" * 30, x)
 
-    if item_id is not None:
+    new_quantity = int(old_quantity[0]) - x
 
-        conn = sqlite3.connect('InventoryApp_DB.db')
-        cur = conn.cursor()
-
-        cur.execute('''Select quantity from Items where id =?''', (item_id,))
-        old_quantity = cur.fetchone()
-        print("$" * 30, "old quantity!!!:", old_quantity)
-        print("-" * 30, x)
-
-        new_quantity = int(old_quantity[0]) - x
-
-        if new_quantity >= 0:
+    if new_quantity >= 0:
+        print("$" * 30, "NEW quantity!!!:", new_quantity)
+        cur.execute("UPDATE items SET quantity = ? WHERE id = ?", (new_quantity, item_id))
+        conn.commit()
+        cur.close()
+        conn.close()
+        return
+        #subtract_log(item, x)
+    else:
+        option = input("There is no enough items to subtract this quantity. Do you still want to proceed? Y/N")
+        if option.lower() == "n" or option.lower() == "no":
+            print("Subtraction cancelled")
+            return
+        elif option.lower() == "y" or option.lower() == "yes":
+            print("Item Quantity will be set to zero")
+            new_quantity = 0
             print("$" * 30, "NEW quantity!!!:", new_quantity)
             cur.execute("UPDATE items SET quantity = ? WHERE id = ?", (new_quantity, item_id))
             conn.commit()
-            subtract_log(item, x)
-
+            return
         else:
-            print("This operation can not be completed: NOT enough items")
+            print("This is not a valid option")
+            subtract_quantity(item_id,x)
 
-        cur.close()
-        conn.close()
-
-    else:
-        print("item check* This item DOES NOT exist")
 
 
 # ===========================================================================
