@@ -43,7 +43,7 @@ def item_data_entry():
             group = f"Group {random.randint(1, 10)}"
             model = f"Model {i + 1}"
             brand = f"Brand {i + 1}"
-            external_code = f"Location {random.randint(1, 40)}"
+            external_code = f"code {random.randint(1, 40)}"
             quantity = random.randint(50, 100)
             location = f"Location {random.randint(1, 10)}"
             seller = f"Seller {random.randint(1, 10)}"
