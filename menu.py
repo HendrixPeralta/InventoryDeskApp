@@ -91,8 +91,13 @@ def add_quantity():
 
 def subtract_quantity():
     print("You selected option 4 - Subtract quantity")
-    for item in new_items:
-        DB.subtract_quantity(new_items[random.randint(0, len(new_items) - 1)], random.randint(10, 50))
+    code = input("Add the code of the item you want to add the quantity")
+    item_id = DB.look_up_id(code)
+    if item_id is None:
+        return
+    new_quantity = input("Insert the amount to add")
+    DB.subtract_quantity(item_id, int(new_quantity))
+
 
 
 def edit_item():
