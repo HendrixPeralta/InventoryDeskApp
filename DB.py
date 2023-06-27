@@ -177,7 +177,8 @@ def add_item(item):
         cur.close()
         conn.close()
 
-        add_log(item, item.quantity)
+        item_id = check_item(item)
+        add_log(item_id, item.quantity, 0)
 
     else:
         print("item check* This item already exist")
@@ -294,11 +295,9 @@ def check_item(item):
         return None
 
 
-def subtract_log(item, old_quantity, new_quantity):
+def subtract_log(item_id, old_quantity, new_quantity):
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
-
-    item_id = check_item(item)
 
     current_date = datetime.date.today()
     year_value = current_date.year
@@ -309,18 +308,16 @@ def subtract_log(item, old_quantity, new_quantity):
     print(item_id)
     cur.execute('''INSERT INTO subtract_log (item_id, new_quantity, old_quantity, year, month, day) 
                 VALUES (?, ?, ?, ?, ?,?)''',
-                (item_id, x, year_value, month_value, day_value))
+                (item_id, new_quantity, old_quantity, year_value, month_value, day_value))
     conn.commit()
 
     cur.close()
     conn.close()
 
 
-def add_log(item, x):
+def add_log(item_id, old_quantity, new_quantity):
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
-
-    item_id = check_item(item)
 
     current_date = datetime.date.today()
     year_value = current_date.year
@@ -331,7 +328,7 @@ def add_log(item, x):
     print(item_id)
     cur.execute('''INSERT INTO add_log (item_id, new_quantity, old_quantity, year, month, day) 
                 VALUES (?, ?, ?, ?, ?,?)''',
-                (item_id, x, year_value, month_value, day_value))
+                (item_id, new_quantity, old_quantity, year_value, month_value, day_value))
     conn.commit()
 
     cur.close()
