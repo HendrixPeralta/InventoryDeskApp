@@ -307,7 +307,7 @@ def subtract_log(item, x):
 
     print("*" * 30, "ID!!!!!")
     print(item_id)
-    cur.execute('''INSERT INTO subtracted (item_id, quantity, year, month, day) 
+    cur.execute('''INSERT INTO subtract_log (item_id, quantity, year, month, day) 
                 VALUES (?, ?, ?, ?, ?)''',
                 (item_id, x, year_value, month_value, day_value))
     conn.commit()
@@ -329,7 +329,7 @@ def add_log(item, x):
 
     print("*" * 30, "ID!!!!!")
     print(item_id)
-    cur.execute('''INSERT INTO added (item_id, quantity, year, month, day) 
+    cur.execute('''INSERT INTO add_log (item_id, quantity, year, month, day) 
                 VALUES (?, ?, ?, ?, ?)''',
                 (item_id, x, year_value, month_value, day_value))
     conn.commit()
