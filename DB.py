@@ -139,6 +139,12 @@ def delete_all_items():
     cur.execute('DELETE FROM location')
     conn.commit()
 
+    cur.execute('DELETE FROM add_log')
+    conn.commit()
+
+    cur.execute('DELETE FROM subtract_log')
+    conn.commit()
+
     print('All items deleted.')
 
     cur.close()
