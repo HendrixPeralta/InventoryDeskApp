@@ -294,7 +294,7 @@ def check_item(item):
         return None
 
 
-def subtract_log(item, x):
+def subtract_log(item, old_quantity, new_quantity):
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
 
@@ -307,8 +307,8 @@ def subtract_log(item, x):
 
     print("*" * 30, "ID!!!!!")
     print(item_id)
-    cur.execute('''INSERT INTO subtract_log (item_id, quantity, year, month, day) 
-                VALUES (?, ?, ?, ?, ?)''',
+    cur.execute('''INSERT INTO subtract_log (item_id, new_quantity, old_quantity, year, month, day) 
+                VALUES (?, ?, ?, ?, ?,?)''',
                 (item_id, x, year_value, month_value, day_value))
     conn.commit()
 
@@ -329,8 +329,8 @@ def add_log(item, x):
 
     print("*" * 30, "ID!!!!!")
     print(item_id)
-    cur.execute('''INSERT INTO add_log (item_id, quantity, year, month, day) 
-                VALUES (?, ?, ?, ?, ?)''',
+    cur.execute('''INSERT INTO add_log (item_id, new_quantity, old_quantity, year, month, day) 
+                VALUES (?, ?, ?, ?, ?,?)''',
                 (item_id, x, year_value, month_value, day_value))
     conn.commit()
 
