@@ -91,6 +91,7 @@ def create_db():
                                             id  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
                                             item_id Integer,
                                             old_quantity Integer,
+                                            added_quantity Integer,
                                             new_quantity Integer,
                                             year Integer,
                                             month Integer,
@@ -104,13 +105,13 @@ def create_db():
                                             id  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
                                             item_id Integer,
                                             old_quantity Integer,
+                                            added_quantity Integer,
                                             new_quantity Integer,
                                             year Integer,
                                             month Integer,
                                             day Integer)''')
     except sqlite3.Error as e:
         print("An error occurred:", e)
-
 
     cur.close()
     conn.close()
@@ -178,7 +179,7 @@ def add_item(item):
         conn.close()
 
         item_id = check_item(item)
-        add_log(item_id, item.quantity, 0)
+        add_log(item_id, 0, item.quantity, item.quantity)
 
     else:
         print("item check* This item already exist")
@@ -195,20 +196,21 @@ def delete_item(item_id):
         conn.commit()
         cur.close()
         conn.close()
+
     else:
         print("Item not Found")
 
 
-def add_quantity(item_id, x):
+def add_quantity(item_id, add):
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
 
     cur.execute('''Select quantity from Items where id =?''', (item_id,))
     old_quantity = cur.fetchone()
     print("$" * 30, "old quantity!!!:", old_quantity)
-    print("+" * 30, x)
+    print("+" * 30, add)
 
-    new_quantity = int(old_quantity[0]) + x
+    new_quantity = int(old_quantity[0]) + add
 
     print("$" * 30, "NEW quantity!!!:", new_quantity)
     cur.execute("UPDATE items SET quantity = ? WHERE id = ?", (new_quantity, item_id))
@@ -216,19 +218,19 @@ def add_quantity(item_id, x):
     cur.close()
     conn.close()
 
-  #  add_log(item_id, x)
+    add_log(item_id, old_quantity[0], add, new_quantity)
 
 
-def subtract_quantity(item_id, x):
+def subtract_quantity(item_id, subtract):
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
 
     cur.execute('''Select quantity from Items where id =?''', (item_id,))
     old_quantity = cur.fetchone()
     print("$" * 30, "old quantity!!!:", old_quantity)
-    print("-" * 30, x)
+    print("-" * 30, subtract)
 
-    new_quantity = int(old_quantity[0]) - x
+    new_quantity = int(old_quantity[0]) - subtract
 
     if new_quantity >= 0:
         print("$" * 30, "NEW quantity!!!:", new_quantity)
@@ -237,7 +239,7 @@ def subtract_quantity(item_id, x):
         cur.close()
         conn.close()
         return
-        #subtract_log(item, x)
+        # subtract_log(item, x)
     else:
         option = input("There is no enough items to subtract this quantity. Do you still want to proceed? Y/N")
         if option.lower() == "n" or option.lower() == "no":
@@ -252,8 +254,7 @@ def subtract_quantity(item_id, x):
             return
         else:
             print("This is not a valid option")
-            subtract_quantity(item_id,x)
-
+            subtract_quantity(item_id, x)
 
 
 # ===========================================================================
@@ -295,7 +296,7 @@ def check_item(item):
         return None
 
 
-def subtract_log(item_id, old_quantity, new_quantity):
+def subtract_log(item_id, old_quantity, added_quantity, new_quantity):
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
 
@@ -306,16 +307,16 @@ def subtract_log(item_id, old_quantity, new_quantity):
 
     print("*" * 30, "ID!!!!!")
     print(item_id)
-    cur.execute('''INSERT INTO subtract_log (item_id, new_quantity, old_quantity, year, month, day) 
-                VALUES (?, ?, ?, ?, ?,?)''',
-                (item_id, new_quantity, old_quantity, year_value, month_value, day_value))
+    cur.execute('''INSERT INTO add_log (item_id, old_quantity, added_quantity, new_quantity, year, month, day) 
+                    VALUES (?, ?, ?, ?, ?,?,?)''',
+                (item_id, old_quantity, added_quantity, new_quantity, year_value, month_value, day_value))
     conn.commit()
 
     cur.close()
     conn.close()
 
 
-def add_log(item_id, old_quantity, new_quantity):
+def add_log(item_id, old_quantity, added_quantity, new_quantity):
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
 
@@ -326,9 +327,9 @@ def add_log(item_id, old_quantity, new_quantity):
 
     print("*" * 30, "ID!!!!!")
     print(item_id)
-    cur.execute('''INSERT INTO add_log (item_id, new_quantity, old_quantity, year, month, day) 
-                VALUES (?, ?, ?, ?, ?,?)''',
-                (item_id, new_quantity, old_quantity, year_value, month_value, day_value))
+    cur.execute('''INSERT INTO add_log (item_id, old_quantity, added_quantity, new_quantity, year, month, day) 
+                VALUES (?, ?, ?, ?, ?, ?, ?)''',
+                (item_id, old_quantity, added_quantity, new_quantity, year_value, month_value, day_value))
     conn.commit()
 
     cur.close()
