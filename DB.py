@@ -238,8 +238,9 @@ def subtract_quantity(item_id, subtract):
         conn.commit()
         cur.close()
         conn.close()
+        subtract_log(item_id, old_quantity[0], subtract, new_quantity)
         return
-        # subtract_log(item, x)
+
     else:
         option = input("There is no enough items to subtract this quantity. Do you still want to proceed? Y/N")
         if option.lower() == "n" or option.lower() == "no":
@@ -251,10 +252,14 @@ def subtract_quantity(item_id, subtract):
             print("$" * 30, "NEW quantity!!!:", new_quantity)
             cur.execute("UPDATE items SET quantity = ? WHERE id = ?", (new_quantity, item_id))
             conn.commit()
+            cur.close()
+            conn.close()
+            subtract_log(item_id, old_quantity[0], old_quantity[0], new_quantity)
             return
         else:
             print("This is not a valid option")
-            subtract_quantity(item_id, x)
+            subtract_quantity(item_id, subtract)
+
 
 
 # ===========================================================================
