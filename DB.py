@@ -188,6 +188,24 @@ def delete_item(item_id):
         print("Item not Found")
 
 
+def delete_log(table):
+    print("im deleting content on ", table)
+    # if item_id is not None:
+    #
+    #     # conn = sqlite3.connect('InventoryApp_DB.db')
+    #     # cur = conn.cursor()
+    #     #
+    #     # cur.execute(f'''Delete * FROM {table}''')
+    #     # print("Item deleted successfully")
+    #     #
+    #     # conn.commit()
+    #     # cur.close()
+    #     # conn.close()
+    #
+    # else:
+    #     print("Item not Found")
+
+
 def add_quantity(item_id, add):
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
