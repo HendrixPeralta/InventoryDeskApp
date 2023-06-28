@@ -12,7 +12,7 @@ options = {
     '4': menu.subtract_quantity,
     '5': menu.edit_item,
     '6': menu.search_item,
-    '98': menu.delete,
+    '98': menu.delete_table_content(),
     '99': menu.delete_database,
 }
 
@@ -30,7 +30,7 @@ while button != '0':
         5 = *** Edit item ***
         6 = *** Search item ***
 
-        98 = *** DELETE logs ***
+        98 = *** DELETE table content ***
         99 = *** Delete database ***
         0 = QUIT
         """
