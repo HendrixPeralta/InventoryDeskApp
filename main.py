@@ -12,7 +12,7 @@ options = {
     '4': menu.subtract_quantity,
     '5': menu.edit_item,
     '6': menu.search_item,
-    '98': menu.delete_table_content(),
+    '98': menu.delete_table_content,
     '99': menu.delete_database,
 }
 
