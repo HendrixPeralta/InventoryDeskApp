@@ -194,8 +194,12 @@ def delete_table_content(table):
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
 
-    cur.execute(f'''Delete FROM {table}''')
-    print(f"The contents in the {table} table were deleted successfully")
+    if table == "all":
+        delete_all_items()
+
+    else:
+        cur.execute(f'''Delete FROM {table}''')
+        print(f"The contents in the {table} table were deleted successfully")
 
     conn.commit()
     cur.close()
