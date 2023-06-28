@@ -28,10 +28,10 @@ while button != '0':
         3 = Add quantity
         4 = Subtract quantity
         5 = *** Edit item ***
-        6 = Search item
+        6 = *** Search item ***
 
         98 = *** DELETE logs ***
-        99 = Delete database
+        99 = *** Delete database ***
         0 = QUIT
         """
     )

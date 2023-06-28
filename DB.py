@@ -188,7 +188,7 @@ def delete_item(item_id):
         print("Item not Found")
 
 
-def delete_log(table):
+def delete_table_content(table):
     print("im deleting content on ", table)
     # if item_id is not None:
     #
