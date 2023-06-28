@@ -112,7 +112,7 @@ def search_item():
 
 def delete_table_content():
     print("You selected option 98 - DELETE logs")
-    option = {
+    table_list = {
         "1": "Items",
         "2": "group1",
         "3": "group2",
@@ -135,8 +135,8 @@ def delete_table_content():
         """
     )
     button = input("Select the number of the table to delete")
-    table = option.get(button)
-    print("you selected ", table)
+    table = table_list.get(button)
+    print("You selected ", table)
     DB.delete_table_content(table)
 
 
