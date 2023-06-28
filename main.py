@@ -29,8 +29,8 @@ while button != '0':
         4 = Subtract quantity
         5 = *** Edit item ***
         6 = *** Search item ***
-
-        98 = *** DELETE table content ***
+        ---------------------------
+        98 = DELETE TABLE CONTENTS
         99 = *** Delete database ***
         0 = QUIT
         """
