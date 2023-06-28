@@ -312,7 +312,7 @@ def subtract_log(item_id, old_quantity, subtracted_quantity, new_quantity):
 
     print("*" * 30, "ID!!!!!")
     print(item_id)
-    cur.execute('''INSERT INTO add_log (item_id, old_quantity, subtracted_quantity, new_quantity, year, month, day) 
+    cur.execute('''INSERT INTO subtract_log (item_id, old_quantity, subtracted_quantity, new_quantity, year, month, day) 
                     VALUES (?, ?, ?, ?, ?,?,?)''',
                 (item_id, old_quantity, subtracted_quantity, new_quantity, year_value, month_value, day_value))
     conn.commit()
