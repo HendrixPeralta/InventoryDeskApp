@@ -123,27 +123,14 @@ def delete_all_items():
     cur = conn.cursor()
 
     cur.execute('DELETE FROM Items')
-    conn.commit()
-
     cur.execute('DELETE FROM group1')
-    conn.commit()
-
     cur.execute('DELETE FROM group2')
-    conn.commit()
-
     cur.execute('DELETE FROM seller')
-    conn.commit()
-
     cur.execute('DELETE FROM brand')
-    conn.commit()
-
     cur.execute('DELETE FROM location')
-    conn.commit()
-
     cur.execute('DELETE FROM add_log')
-    conn.commit()
-
     cur.execute('DELETE FROM subtract_log')
+
     conn.commit()
 
     print('All items deleted.')
@@ -261,9 +248,8 @@ def subtract_quantity(item_id, subtract):
             subtract_quantity(item_id, subtract)
 
 
-
 # ===========================================================================
-#  PASSIVE FUNCTIONS
+#  supporting FUNCTIONS
 
 def look_up_id(code):
     conn = sqlite3.connect('InventoryApp_DB.db')
