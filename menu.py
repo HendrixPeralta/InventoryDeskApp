@@ -110,7 +110,7 @@ def search_item():
     DB.look_up_id(code)
 
 
-def delete_log():
+def delete_table_content():
     print("You selected option 98 - DELETE logs")
     option = {
         "1": "Items",
@@ -137,7 +137,7 @@ def delete_log():
     button = input("Select the number of the table to delete")
     table = option.get(button)
     print("you selected ", table)
-    DB.delete_log(table)
+    DB.delete_table_content(table)
 
 
 def delete_database():
