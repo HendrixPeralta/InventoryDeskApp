@@ -99,7 +99,6 @@ def subtract_quantity():
     DB.subtract_quantity(item_id, int(new_quantity))
 
 
-
 def edit_item():
     print("You selected option 5 - Edit item")
     # Add your code here
@@ -111,9 +110,34 @@ def search_item():
     DB.look_up_id(code)
 
 
-def delete_logs():
+def delete_log():
     print("You selected option 98 - DELETE logs")
-    # Add your code here
+    option = {
+        "1": "Items",
+        "2": "group1",
+        "3": "group2",
+        "4": "add_log",
+        "5": "Subtract_log",
+        "6": "seller",
+        "7": "brand",
+        "8": "location",
+    }
+    print(
+        """
+        1 = Items
+        2 = Group 1
+        3 = Group 2
+        4 = add logs
+        5 = Subtract logs
+        6 = Seller
+        7 = Brand
+        8 = Location
+        """
+    )
+    button = input("Select the number of the table to delete")
+    table = option.get(button)
+    print("you selected ", table)
+    DB.delete_log(table)
 
 
 def delete_database():
