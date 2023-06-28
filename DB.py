@@ -105,7 +105,7 @@ def create_db():
                                             id  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
                                             item_id Integer,
                                             old_quantity Integer,
-                                            added_quantity Integer,
+                                            subtracted_quantity Integer,
                                             new_quantity Integer,
                                             year Integer,
                                             month Integer,
@@ -301,7 +301,7 @@ def check_item(item):
         return None
 
 
-def subtract_log(item_id, old_quantity, added_quantity, new_quantity):
+def subtract_log(item_id, old_quantity, subtracted_quantity, new_quantity):
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
 
@@ -312,9 +312,9 @@ def subtract_log(item_id, old_quantity, added_quantity, new_quantity):
 
     print("*" * 30, "ID!!!!!")
     print(item_id)
-    cur.execute('''INSERT INTO add_log (item_id, old_quantity, added_quantity, new_quantity, year, month, day) 
+    cur.execute('''INSERT INTO add_log (item_id, old_quantity, subtracted_quantity, new_quantity, year, month, day) 
                     VALUES (?, ?, ?, ?, ?,?,?)''',
-                (item_id, old_quantity, added_quantity, new_quantity, year_value, month_value, day_value))
+                (item_id, old_quantity, subtracted_quantity, new_quantity, year_value, month_value, day_value))
     conn.commit()
 
     cur.close()
