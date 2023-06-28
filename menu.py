@@ -121,6 +121,7 @@ def delete_table_content():
         "6": "seller",
         "7": "brand",
         "8": "location",
+        "0": "all"
     }
     print(
         """
@@ -132,6 +133,8 @@ def delete_table_content():
         6 = Seller
         7 = Brand
         8 = Location
+        -----------------
+        0 = All
         """
     )
     button = input("Select the number of the table to delete")
