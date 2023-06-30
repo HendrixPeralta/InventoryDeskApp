@@ -18,6 +18,7 @@ options = {
 
 button = None
 
+DB.filter_by("name", "brand", "brand 7")
 
 # Main menu loop
 while button != '0':
@@ -53,4 +54,5 @@ while button != '0':
         print("Invalid choice. Please enter a valid option.")
 
     print("Program exited.")
+
 
