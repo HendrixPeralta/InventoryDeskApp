@@ -191,19 +191,19 @@ def delete_item(item_id):
 def delete_table_content(table):
     print("im deleting content on ", table)
 
-    conn = sqlite3.connect('InventoryApp_DB.db')
-    cur = conn.cursor()
-
     if table == "all":
         delete_all_items()
 
     else:
+        conn = sqlite3.connect('InventoryApp_DB.db')
+        cur = conn.cursor()
+
         cur.execute(f'''Delete FROM {table}''')
         print(f"The contents in the {table} table were deleted successfully")
 
-    conn.commit()
-    cur.close()
-    conn.close()
+        conn.commit()
+        cur.close()
+        conn.close()
 
 
 def add_quantity(item_id, add):
@@ -273,7 +273,15 @@ def look_up_id(code):
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
 
-    cur.execute('''Select id From Items where external_code = ?''', (code,))
+    cur.execute('''Select id From Items where 
+    external_code LIKE ?
+    OR description Like ?
+    OR descr2 LIKE ?
+    OR name LIKE ?''',
+    ("%" + code + "%",
+     "%" + code + "%",
+     "%" + code + "%",
+     "%" + code + "%"))
     row = cur.fetchone()
 
     if row:
