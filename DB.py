@@ -273,6 +273,10 @@ def look_up_id(code):
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
 
+    code_int = None
+    if isinstance(code, str) and code.isdigit():
+        code_int = int(code)
+
     cur.execute('''Select i.id, i.name, l.name as location, external_code, model
     FROM Items as i 
     LEFT JOIN location AS l
@@ -281,11 +285,13 @@ def look_up_id(code):
     WHERE external_code LIKE ?
     OR i.description Like ?
     OR descr2 LIKE ?
-    OR i.name LIKE ?''',
+    OR i.name LIKE ?
+    OR i.id = ?''',
                 ("%" + code + "%",
                  "%" + code + "%",
                  "%" + code + "%",
-                 "%" + code + "%"))
+                 "%" + code + "%",
+                 code_int))
     rows = cur.fetchall()
 
     cur.close()
