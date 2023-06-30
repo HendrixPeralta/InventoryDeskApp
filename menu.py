@@ -3,6 +3,7 @@ import objects
 import DB
 
 
+# TEST
 def item_data_entry():
     new_items = []
     quantity_items = int(input("How many items you want to create: "))
@@ -107,8 +108,24 @@ def edit_item():
 def search_item():
     print("You selected option 6 - Search item")
     code = str(input("Add the code of the item to search"))
-    DB.look_up_id(code)
+    rows = DB.look_up_id(code)
 
+    if rows:
+        i = 0
+        for row in rows:
+            print("# ", i, row)
+            i = i + 1
+
+        i = 0
+
+        selected = int(input("We found more than one match. Please select the number of the correct item"))
+        item = rows[selected]
+
+        print("You choose ", item[0])
+
+    else:
+        print("the ITEM was not found")
+        return None
 
 def delete_table_content():
     print("You selected option 98 - DELETE logs")
