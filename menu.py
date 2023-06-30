@@ -42,12 +42,12 @@ def item_data_entry():
             description = f"Description {i + 1}"
             group = f"Group {random.randint(1, 10)}"
             model = f"Model {i + 1}"
-            brand = f"Brand {i + 1}"
+            brand = f"Brand {random.randint(1,10)}"
             external_code = f"code {random.randint(1, 40)}"
             quantity = random.randint(50, 100)
             location = f"Location {random.randint(1, 10)}"
             seller = f"Seller {random.randint(1, 10)}"
-            group2 = f"Group2 {i + 1}"
+            group2 = f"Group2 {random.randint(1, 10)}"
             des2 = f"Description2 {i + 1}"
             minimum = random.randint(1, 10)
             maximum = minimum * 10
