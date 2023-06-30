@@ -273,26 +273,25 @@ def look_up_id(code):
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
 
-    cur.execute('''Select id From Items where 
-    external_code LIKE ?
-    OR description Like ?
+    cur.execute('''Select i.id, i.name, l.name as location, external_code, model
+    FROM Items as i 
+    LEFT JOIN location AS l
+    ON location_id = l.name 
+    
+    WHERE external_code LIKE ?
+    OR i.description Like ?
     OR descr2 LIKE ?
-    OR name LIKE ?''',
+    OR i.name LIKE ?''',
                 ("%" + code + "%",
                  "%" + code + "%",
                  "%" + code + "%",
                  "%" + code + "%"))
-    row = cur.fetchone()
+    rows = cur.fetchall()
 
-    if row:
-        print("whe found the Item: ", row)
-        cur.close()
-        conn.close()
-        return row[0]
+    cur.close()
+    conn.close()
 
-    else:
-        print("the ITEM was not found")
-        return None
+    return rows
 
 
 def filter_by(variable, table, look):
@@ -314,8 +313,6 @@ def filter_by(variable, table, look):
         print(row)
 
     return rows
-
-
 
 
 def check_item(item):
