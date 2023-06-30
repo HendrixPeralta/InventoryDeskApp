@@ -278,10 +278,10 @@ def look_up_id(code):
     OR description Like ?
     OR descr2 LIKE ?
     OR name LIKE ?''',
-    ("%" + code + "%",
-     "%" + code + "%",
-     "%" + code + "%",
-     "%" + code + "%"))
+                ("%" + code + "%",
+                 "%" + code + "%",
+                 "%" + code + "%",
+                 "%" + code + "%"))
     row = cur.fetchone()
 
     if row:
@@ -293,6 +293,29 @@ def look_up_id(code):
     else:
         print("the ITEM was not found")
         return None
+
+
+def filter_by(variable, table, look):
+    conn = sqlite3.connect("InventoryApp_DB.db")
+    cur = conn.cursor()
+
+    query = f'''SELECT Items.name, description, location_id, quantity, t.name
+            FROM Items 
+            LEFT JOIN {table}  as t
+            ON {table}_id = t.id  
+            WHERE t.{variable} LIKE ?'''
+    cur.execute(query, ("%" + look + "%",))
+    rows = cur.fetchall()
+
+    cur.close()
+    conn.close()
+
+    for row in rows:
+        print(row)
+
+    return rows
+
+
 
 
 def check_item(item):
