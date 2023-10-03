@@ -172,8 +172,8 @@ def add_item(item):
         print("item check* This item already exist")
 
 
-def delete_item(item_id):
-    if item_id is not None:
+def delete_item(item):
+    if item is not None:
         conn = sqlite3.connect('InventoryApp_DB.db')
         cur = conn.cursor()
 
