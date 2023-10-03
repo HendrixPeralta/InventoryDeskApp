@@ -286,12 +286,15 @@ def look_up_id(code):
     OR i.description Like ?
     OR descr2 LIKE ?
     OR i.name LIKE ?
+    OR l.name LIKE ?
     OR i.id = ?''',
                 ("%" + code + "%",
                  "%" + code + "%",
                  "%" + code + "%",
                  "%" + code + "%",
+                 "%" + code + "%",
                  code_int))
+
     rows = cur.fetchall()
 
     cur.close()
