@@ -12,13 +12,14 @@ options = {
     '4': menu.subtract_quantity,
     '5': menu.edit_item,
     '6': menu.search_item,
+    '7': menu.filter_by,
     '98': menu.delete_table_content,
     '99': menu.delete_database,
 }
 
 button = None
 
-DB.filter_by("name", "brand", "brand 7")
+DB.filter_by("brand")
 
 # Main menu loop
 while button != '0':
@@ -29,7 +30,8 @@ while button != '0':
         3 = Add quantity
         4 = Subtract quantity
         5 = *** Edit item ***
-        6 = *** Search item ***
+        6 = Search item 
+        7 = Filter by ...
         ---------------------------
         98 = DELETE TABLE CONTENTS
         99 = *** Delete database ***
