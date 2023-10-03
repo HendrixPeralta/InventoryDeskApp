@@ -300,7 +300,7 @@ def look_up_id(code):
     cur.close()
     conn.close()
 
-    return rows
+    return rows[0]
 
 
 def filter_by(variable, table, look):
