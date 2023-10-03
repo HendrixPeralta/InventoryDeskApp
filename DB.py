@@ -177,7 +177,7 @@ def delete_item(item):
         conn = sqlite3.connect('InventoryApp_DB.db')
         cur = conn.cursor()
 
-        cur.execute('''Delete FROM Items WHERE id = ?''', (item_id,))
+        cur.execute('''Delete FROM Items WHERE id = ?''', (item[0],))
         print("Item deleted successfully")
 
         conn.commit()
