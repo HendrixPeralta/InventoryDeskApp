@@ -43,7 +43,7 @@ def item_data_entry():
             description = f"Description {i + 1}"
             group = f"Group {random.randint(1, 10)}"
             model = f"Model {i + 1}"
-            brand = f"Brand {random.randint(1,10)}"
+            brand = f"Brand {random.randint(1, 10)}"
             external_code = f"code {random.randint(1, 40)}"
             quantity = random.randint(50, 100)
             location = f"Location {random.randint(1, 10)}"
@@ -83,11 +83,13 @@ def delete_item():
 def add_quantity():
     print("You selected option 3 - Add quantity")
     code = input("Add the code of the item you want to add the quantity")
-    item_id = DB.look_up_id(code)
-    if item_id is None:
+    item = DB.look_up_id(code)
+    if item is None:
         return
+    print("add_quantity()")
+    print(item)
     new_quantity = input("Insert the amount to add")
-    DB.add_quantity(item_id, int(new_quantity))
+    DB.add_quantity(item[0], int(new_quantity))
 
 
 def subtract_quantity():
@@ -127,6 +129,7 @@ def search_item():
         print("the ITEM was not found")
         return None
 
+
 def delete_table_content():
     print("You selected option 98 - DELETE logs")
     table_list = {
@@ -163,3 +166,24 @@ def delete_table_content():
 def delete_database():
     print("You selected option 99 - Delete database")
     # Add your code here
+
+
+def filter_by():
+    print("You selected option 7 - Filter_by")
+    table_name = str(input("NAME OF THE TABLE"))
+    list_distinct = DB.filter_by(table_name)
+
+    i = 0
+    for item in list_distinct:
+        print("#", i, " Name:", item[0])
+        i = i + 1
+    i = 0
+    selected = int(input("Select the # to filter"))
+    look = list_distinct[selected]
+    print(look[1])
+    filter_result = DB.look_up_id(str(look[1]))
+
+    for result in filter_result:
+        print(result)
+
+    return None
