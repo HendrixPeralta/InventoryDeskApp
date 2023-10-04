@@ -89,7 +89,7 @@ def add_quantity():
     print("add_quantity()")
     print(item)
     new_quantity = input("Insert the amount to add")
-    DB.add_quantity(item[0], int(new_quantity))
+    DB.add_quantity(item, int(new_quantity))
 
 
 def subtract_quantity():
@@ -99,7 +99,7 @@ def subtract_quantity():
     if item is None:
         return
     new_quantity = input("Insert the amount to subtract")
-    DB.subtract_quantity(item[0], int(new_quantity))
+    DB.subtract_quantity(item, int(new_quantity))
 
 
 def edit_item():
