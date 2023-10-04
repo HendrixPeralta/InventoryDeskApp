@@ -98,7 +98,7 @@ def subtract_quantity():
     item = DB.look_up_id(code)
     if item is None:
         return
-    new_quantity = input("Insert the amount to add")
+    new_quantity = input("Insert the amount to subtract")
     DB.subtract_quantity(item[0], int(new_quantity))
 
 
