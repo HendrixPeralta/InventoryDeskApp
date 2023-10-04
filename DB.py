@@ -139,6 +139,9 @@ def delete_all_items():
     conn.close()
 
 
+# ----------------------------------------------------------------------------------
+
+
 def add_item(item):
     item_id = check_item(item)
 
@@ -277,25 +280,13 @@ def look_up_id(code):
     if isinstance(code, str) and code.isdigit():
         code_int = int(code)
 
-    cur.execute('''Select i.id, i.name, l.name as location, external_code, model
-    FROM Items as i 
-    LEFT JOIN location AS l
-    ON location_id = l.name 
-    
-    WHERE external_code LIKE ?
-    OR i.description Like ?
-    OR descr2 LIKE ?
-    OR i.name LIKE ?
-    OR l.name LIKE ?
-    OR i.id = ?''',
-                ("%" + code + "%",
-                 "%" + code + "%",
-                 "%" + code + "%",
-                 "%" + code + "%",
-                 "%" + code + "%",
-                 code_int))
-
-    rows = cur.fetchall()
+    cur.execute('''Select i.id, i.name, l.name as location, external_code, model, quantity
+         FROM Items as i 
+         LEFT JOIN location AS l
+         ON location_id = l.name 
+        
+        WHERE i.id = ?''', (code_int,))
+    rows = cur.fetchone()
 
     cur.close()
     conn.close()
