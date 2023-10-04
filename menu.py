@@ -95,11 +95,11 @@ def add_quantity():
 def subtract_quantity():
     print("You selected option 4 - Subtract quantity")
     code = input("Add the code of the item you want to add the quantity")
-    item_id = DB.look_up_id(code)
-    if item_id is None:
+    item = DB.look_up_id(code)
+    if item is None:
         return
     new_quantity = input("Insert the amount to add")
-    DB.subtract_quantity(item_id, int(new_quantity))
+    DB.subtract_quantity(item, int(new_quantity))
 
 
 def edit_item():
@@ -161,6 +161,7 @@ def delete_table_content():
     table = table_list.get(button)
     print("You selected ", table)
     DB.delete_table_content(table)
+
 
 
 def delete_database():
