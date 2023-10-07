@@ -352,6 +352,36 @@ def look_up_name():
         return None
 
 
+def filter_by(table):
+    conn = sqlite3.connect("InventoryApp_DB.db")
+    cur = conn.cursor()
+
+    unique_names = f'''SELECT DISTINCT name, id 
+                        FROM {table} '''
+    cur.execute(unique_names)
+    items = cur.fetchall()
+    return items
+    # for name in names:
+    #     print("#", name[0], " Name:", name[1])
+    # look_ = int(input("Select the # to filter"))
+
+    # query = f'''SELECT i.name, description, location_id, quantity, t.name
+    #         FROM Items as i
+    #         LEFT JOIN {table}  as t
+    #         ON {table}_id = t.id
+    #         WHERE i.id = ?'''
+    # cur.execute(query, (look,))
+    #
+    # rows = cur.fetchall()
+    #
+    # cur.close()
+    # conn.close()
+    #
+    #
+    #
+    # return rows
+
+
 def subtract_log(item_id, old_quantity, subtracted_quantity, new_quantity):
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
@@ -390,6 +420,26 @@ def add_log(item_id, old_quantity, added_quantity, new_quantity):
 
     cur.close()
     conn.close()
+
+
+# ===========================================================================================
+# Legacy
+def check_item(item):
+    conn = sqlite3.connect('InventoryApp_DB.db')
+    cur = conn.cursor()
+
+    cur.execute('''Select * From Items where external_code = ?''', (item.ext_code,))
+    row = cur.fetchone()
+
+    if row:
+        print("whe found the Items: ", (item.name,))
+        cur.close()
+        conn.close()
+        return row[0]
+
+    else:
+        print("the ITEM doesnt exist")
+        return None
 
 
 # Check of Group 1 exist if it does retrieve the row id if not insert it in the table
