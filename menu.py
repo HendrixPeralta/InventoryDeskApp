@@ -191,7 +191,8 @@ def look_up():
         if look_up_method:
             print("button selected: ", button)
             print(options[button])
-            look_up_method()
+            item = look_up_method()
+            return item
 
         elif button == '0':
             # Quit the program

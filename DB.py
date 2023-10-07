@@ -291,7 +291,44 @@ def look_up_id(code):
     cur.close()
     conn.close()
 
-    return rows[0]
+    # cur.execute('''Select i.id, i.name, l.name as location, external_code, model
+    # FROM Items as i
+    # LEFT JOIN location AS l
+    # ON location_id = l.name
+    #
+    # WHERE external_code LIKE ?
+    # OR i.description Like ?
+    # OR descr2 LIKE ?
+    # OR i.name LIKE ?
+    # OR l.name LIKE ?
+    # OR i.id = ?''',
+    #             ("%" + code + "%",
+    #              "%" + code + "%",
+    #              "%" + code + "%",
+    #              "%" + code + "%",
+    #              "%" + code + "%",
+    #              code_int))
+    #
+    # rows = cur.fetchall()
+    #
+    # cur.close()
+    # conn.close()
+    print(f'''
+        Item found by the Look up function: 
+        
+        Name: {rows[1]}
+        Location: {rows[2]}
+        External code: {rows[3]}
+        Model: {rows[4]}
+        Quantity: {rows[5]}
+    ''')
+
+    if rows:
+        return rows
+
+    else:
+        print("Item not found")
+        return None
 
 
 def look_up_name():
@@ -309,7 +346,6 @@ def look_up_name():
             WHERE i.name = ?''', (name,))
 
     rows = cur.fetchall()
-
     cur.close()
     conn.close()
 
@@ -330,8 +366,7 @@ def look_up_name():
             i = i + 1
 
         choice = int(input("input the item number of the desired item"))
-        if 1 <= choice <= len(rows):
-            return rows[choice - 1]
+        return rows[choice - 1]
 
     elif rows:
         print(f'''
