@@ -19,8 +19,6 @@ options = {
 
 button = None
 
-DB.filter_by("brand")
-
 # Main menu loop
 while button != '0':
     print(
