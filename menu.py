@@ -73,7 +73,7 @@ def add_item():
         DB.add_item(item[0])
 
 
-def add_quantity():
+def delete_item():
     print("delete_item()")
     # ------------------------
 
