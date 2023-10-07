@@ -164,7 +164,7 @@ def delete_table_content():
 
 def look_up():
     options = {
-        '1': None,  # DB.look_up_ext_code,
+        '1': DB.look_up_extcode,
         '2': DB.look_up_name,
         '3': None,  # DB.look_up_location,
         '0': None,
@@ -175,7 +175,7 @@ def look_up():
     while button != '0':
         print(
             """
-            1 = Look Up by 
+            1 = Look Up by External Code
             2 = look Up by name
             3 = Look Up by Description ***
             0 = CANCEL
