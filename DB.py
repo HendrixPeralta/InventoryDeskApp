@@ -176,11 +176,16 @@ def add_item(item):
 
 
 def delete_item(item_id):
+    print("db.delete_item()")
+    # ------------------------
+    print("this is the item id")
+    print(item_id)
     if item_id is not None:
         conn = sqlite3.connect('InventoryApp_DB.db')
         cur = conn.cursor()
 
         cur.execute('''Delete FROM Items WHERE id = ?''', (item_id,))
+
         print("Item deleted successfully")
 
         conn.commit()
@@ -332,6 +337,9 @@ def look_up_id(code):
 
 
 def look_up_name():
+    print("db.look_up_name()")
+    # ------------------------
+
     name = input("What is the name of the item you are looking for")
 
     conn = sqlite3.connect('InventoryApp_DB.db')
@@ -372,13 +380,13 @@ def look_up_name():
         print(f'''
                 2, Item found by the Look up name function:
                 
-                Name: {rows[1]}
-                Location: {rows[2]}
-                External code: {rows[3]}
-                Model: {rows[4]}
+                Name: {rows[0][1]}
+                Location: {rows[0][2]}
+                External code: {rows[0][3]}
+                Model: {rows[0][4]}
             ''')
 
-        return rows
+        return rows[0]
 
     else:
         print("Item not found")
