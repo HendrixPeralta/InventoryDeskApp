@@ -3,7 +3,6 @@ import objects
 import DB
 
 
-
 # TEST
 def item_data_entry():
     new_items = []
@@ -75,6 +74,9 @@ def add_item():
 
 
 def delete_item():
+    print("delete_item()")
+    # ------------------------
+
     print("You selected option 2 - Delete an item")
     code = input("Add the code of the item to delete")
     item = DB.look_up_id(code)
@@ -82,12 +84,11 @@ def delete_item():
 
 
 def add_quantity():
+    print("add_quantity()")
+    # ------------------------
+
     print("You selected option 3 - Add quantity")
-    #code = input("Add the code of the item you want to add the quantity")
-    #item = DB.look_up_id(code)
     item = look_up()
-    if item is None:
-        return
     print("add_quantity()")
     print(item)
     new_quantity = input("Insert the amount to add")
@@ -95,16 +96,18 @@ def add_quantity():
 
 
 def subtract_quantity():
+    print("subtract_quantity()")
+    # ------------------------
+
     print("You selected option 4 - Subtract quantity")
-    code = input("Add the code of the item you want to add the quantity")
-    item = DB.look_up_id(code)
-    if item is None:
-        return
+    item = look_up()
     new_quantity = input("Insert the amount to subtract")
     DB.subtract_quantity(item[0], int(new_quantity))
 
 
 def edit_item():
+    print("edit_item()")
+    # ------------------------
     print("You selected option 5 - Edit item")
     # Add your code here
 
@@ -167,9 +170,9 @@ def delete_table_content():
 
 def look_up():
     options = {
-        '1':  None, #DB.look_up_ext_code,
-        '2':  DB.look_up_name,
-        '3':  None,  # DB.look_up_location,
+        '1': None,  # DB.look_up_ext_code,
+        '2': DB.look_up_name,
+        '3': None,  # DB.look_up_location,
         '0': None,
     }
 
