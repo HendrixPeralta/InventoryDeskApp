@@ -73,13 +73,15 @@ def add_item():
         DB.add_item(item[0])
 
 
-def delete_item():
+def add_quantity():
     print("delete_item()")
     # ------------------------
 
     print("You selected option 2 - Delete an item")
-    code = input("Add the code of the item to delete")
-    item = DB.look_up_id(code)
+    item = look_up()
+    if item is None:
+        print("Action is not possible - Item NOT found")
+        return
     DB.delete_item(item[0])
 
 
@@ -89,6 +91,9 @@ def add_quantity():
 
     print("You selected option 3 - Add quantity")
     item = look_up()
+    if item is None:
+        print("Action is not possible - Item NOT found")
+        return
     print("add_quantity()")
     print(item)
     new_quantity = input("Insert the amount to add")
@@ -101,6 +106,9 @@ def subtract_quantity():
 
     print("You selected option 4 - Subtract quantity")
     item = look_up()
+    if item is None:
+        print("Action is not possible - Item NOT found")
+        return
     new_quantity = input("Insert the amount to subtract")
     DB.subtract_quantity(item[0], int(new_quantity))
 
