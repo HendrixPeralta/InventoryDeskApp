@@ -450,6 +450,62 @@ def look_up_extcode():
         return None
 
 
+def look_up_description():
+    print("db.look_up_description()")
+    # ------------------------
+
+    description = input("What is the Description of the item you are looking for")
+
+    conn = sqlite3.connect('InventoryApp_DB.db')
+    cur = conn.cursor()
+
+    if isinstance(description, str):
+        cur.execute('''Select i.id, i.name, l.name as Location, external_code, model, quantity, i.description
+             FROM Items as i 
+             LEFT JOIN location AS l
+             ON location_id = l.id
+
+            WHERE i.description LIKE ?''', ("%" + description + "%",))
+
+    rows = cur.fetchall()
+    cur.close()
+    conn.close()
+
+    print(rows)
+
+    if rows and len(rows) > 1:
+
+        i = 0
+        print("1, Items found by the Look up name function:")
+        for row in rows:
+            print(f'''
+                item: {i + 1}
+                Name: {row[1]}
+                Location: {row[2]}
+                External code: {row[3]}
+                Model: {row[4]}
+            ''')
+            i = i + 1
+
+        choice = int(input("input the item number of the desired item"))
+        return rows[choice - 1]
+
+    elif rows:
+        print(f'''
+                2, Item found by the Look up name function:
+
+                Name: {rows[0][1]}
+                Location: {rows[0][2]}
+                External code: {rows[0][3]}
+                Model: {rows[0][4]}
+            ''')
+
+        return rows[0]
+
+    else:
+        print("Item not found")
+        return None
+
 def filter_by(table):
     conn = sqlite3.connect("InventoryApp_DB.db")
     cur = conn.cursor()
