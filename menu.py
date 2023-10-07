@@ -166,7 +166,7 @@ def look_up():
     options = {
         '1': DB.look_up_extcode,
         '2': DB.look_up_name,
-        '3': None,  # DB.look_up_location,
+        '3': DB.look_up_description,
         '0': None,
     }
 
@@ -177,7 +177,7 @@ def look_up():
             """
             1 = Look Up by External Code
             2 = look Up by name
-            3 = Look Up by Description ***
+            3 = Look Up by Description 
             0 = CANCEL
             """
         )
