@@ -294,42 +294,61 @@ def look_up_id(code):
     return rows[0]
 
 
-def filter_by(variable, table, look):
-    conn = sqlite3.connect("InventoryApp_DB.db")
+def look_up_name():
+    name = input("What is the name of the item you are looking for")
+
+    conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
 
-    query = f'''SELECT Items.name, description, location_id, quantity, t.name
-            FROM Items 
-            LEFT JOIN {table}  as t
-            ON {table}_id = t.id  
-            WHERE t.{variable} LIKE ?'''
-    cur.execute(query, ("%" + look + "%",))
+    if isinstance(name, str):
+        cur.execute('''Select i.id, i.name, l.name as Location, external_code, model, quantity
+             FROM Items as i 
+             LEFT JOIN location AS l
+             ON location_id = l.id
+    
+            WHERE i.name = ?''', (name,))
+
     rows = cur.fetchall()
 
     cur.close()
     conn.close()
 
-    for row in rows:
-        print(row)
+    print(rows)
 
-    return rows
+    if rows and len(rows) > 1:
 
+        i = 0
+        for row in rows:
+            print(f'''
+                Items found by the Look up name function: 
+                
+                item: {i + 1}
+                Name: {row[1]}
+                Location: {row[2]}
+                External code: {row[3]}
+                Model: {row[4]}
+    
+            ''')
+            i = i + 1
 
-def check_item(item):
-    conn = sqlite3.connect('InventoryApp_DB.db')
-    cur = conn.cursor()
+            choice = int(input("input the item number of the desired item"))
+            if 1 <= choice <= len(rows):
+                return rows[choice - 1]
 
-    cur.execute('''Select * From Items where external_code = ?''', (item.ext_code,))
-    row = cur.fetchone()
+    elif rows:
+        print(f'''
+                Item found by the Look up name function:
+                
+                Name: {rows[1]}
+                Location: {rows[2]}
+                External code: {rows[3]}
+                Model: {rows[4]}
+            ''')
 
-    if row:
-        print("whe found the Items: ", (item.name,))
-        cur.close()
-        conn.close()
-        return row[0]
+        return rows
 
     else:
-        print("the ITEM doesnt exist")
+        print("Item not found")
         return None
 
 
