@@ -122,25 +122,11 @@ def edit_item():
 
 def search_item():
     print("You selected option 6 - Search item")
-    code = str(input("Add the code of the item to search"))
-    rows = DB.look_up_id(code)
+    item = look_up()
+    if item is None:
+        print("Action is not possible - Item NOT found")
 
-    if rows:
-        i = 0
-        for row in rows:
-            print("# ", i, row)
-            i = i + 1
-
-        i = 0
-
-        selected = int(input("We found more than one match. Please select the number of the correct item"))
-        item = rows[selected]
-
-        print("You choose ", item[0])
-
-    else:
-        print("the ITEM was not found")
-        return None
+    return None
 
 
 def delete_table_content():
