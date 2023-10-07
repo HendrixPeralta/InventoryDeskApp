@@ -318,26 +318,24 @@ def look_up_name():
     if rows and len(rows) > 1:
 
         i = 0
+        print("1, Items found by the Look up name function:")
         for row in rows:
             print(f'''
-                Items found by the Look up name function: 
-                
                 item: {i + 1}
                 Name: {row[1]}
                 Location: {row[2]}
                 External code: {row[3]}
                 Model: {row[4]}
-    
             ''')
             i = i + 1
 
-            choice = int(input("input the item number of the desired item"))
-            if 1 <= choice <= len(rows):
-                return rows[choice - 1]
+        choice = int(input("input the item number of the desired item"))
+        if 1 <= choice <= len(rows):
+            return rows[choice - 1]
 
     elif rows:
         print(f'''
-                Item found by the Look up name function:
+                2, Item found by the Look up name function:
                 
                 Name: {rows[1]}
                 Location: {rows[2]}
