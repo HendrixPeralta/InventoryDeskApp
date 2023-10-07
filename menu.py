@@ -165,6 +165,44 @@ def delete_table_content():
     DB.delete_table_content(table)
 
 
+def look_up():
+    options = {
+        '1':  None, #DB.look_up_ext_code,
+        '2':  DB.look_up_name,
+        '3':  None,  # DB.look_up_location,
+        '0': None,
+    }
+
+    button = None
+
+    while button != '0':
+        print(
+            """
+            1 = Look Up by 
+            2 = look Up by name
+            3 = Look Up by Description ***
+            0 = CANCEL
+            """
+        )
+        button = input("Enter your choice: ")
+
+        # Get the corresponding action based on user input
+        look_up_method = options.get(button)
+        if look_up_method:
+            print("button selected: ", button)
+            print(options[button])
+            look_up_method()
+
+        elif button == '0':
+            # Quit the program
+            print("Quitting the program...")
+            # Add any necessary cleanup or exit code here
+        else:
+            # Handle invalid input
+            print("Invalid choice. Please enter a valid option.")
+
+        print("Program exited.")
+
 
 def delete_database():
     print("You selected option 99 - Delete database")
