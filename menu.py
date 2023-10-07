@@ -3,6 +3,7 @@ import objects
 import DB
 
 
+
 # TEST
 def item_data_entry():
     new_items = []
@@ -70,26 +71,27 @@ def add_item():
     new_items = item_data_entry()
     print("size of item 2", len(new_items))
     for item in new_items:
-        DB.add_item(item)
+        DB.add_item(item[0])
 
 
 def delete_item():
     print("You selected option 2 - Delete an item")
     code = input("Add the code of the item to delete")
-    item_id = DB.look_up_id(code)
-    DB.delete_item(item_id)
+    item = DB.look_up_id(code)
+    DB.delete_item(item[0])
 
 
 def add_quantity():
     print("You selected option 3 - Add quantity")
-    code = input("Add the code of the item you want to add the quantity")
-    item = DB.look_up_id(code)
+    #code = input("Add the code of the item you want to add the quantity")
+    #item = DB.look_up_id(code)
+    item = look_up()
     if item is None:
         return
     print("add_quantity()")
     print(item)
     new_quantity = input("Insert the amount to add")
-    DB.add_quantity(item, int(new_quantity))
+    DB.add_quantity(item[0], int(new_quantity))
 
 
 def subtract_quantity():
@@ -99,7 +101,7 @@ def subtract_quantity():
     if item is None:
         return
     new_quantity = input("Insert the amount to subtract")
-    DB.subtract_quantity(item, int(new_quantity))
+    DB.subtract_quantity(item[0], int(new_quantity))
 
 
 def edit_item():
