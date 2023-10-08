@@ -164,9 +164,13 @@ def delete_table_content():
 
 def look_up():
     options = {
-        '1': DB.look_up_extcode,
-        '2': DB.look_up_name,
-        '3': DB.look_up_description,
+        # '1': DB.look_up_extcode,
+        # '2': DB.look_up_name,
+        # '3': DB.look_up_description,
+        # '0': None,
+        '1': "external_code",
+        '2': "name",
+        '3': "description",
         '0': None,
     }
 
@@ -188,7 +192,8 @@ def look_up():
         if look_up_method:
             print("button selected: ", button)
             print(options[button])
-            items = look_up_method()
+            name = input(f"What is the {look_up_method} of the item you are looking for")
+            items = DB.look_up(look_up_method, name)
 
             if items and len(items) > 1:
 

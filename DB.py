@@ -336,72 +336,20 @@ def look_up_id(code):
         return None
 
 
-def look_up_name(name):
+def look_up(variable, name):
     print("db.look_up_name()")
     # ------------------------
-
-    name = input("What is the name of the item you are looking for") #*******
 
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
 
     if isinstance(name, str):
-        cur.execute('''Select i.id, i.name, l.name as Location, external_code, model, quantity
+        cur.execute(f'''Select i.id, i.name, l.name as Location, external_code, model, quantity, i.description
              FROM Items as i 
              LEFT JOIN location AS l
              ON location_id = l.id
     
-            WHERE i.name = ?''', (name,))
-
-    rows = cur.fetchall()
-    cur.close()
-    conn.close()
-
-    print(rows)
-    return rows
-
-
-def look_up_extcode(ext_code):
-    print("db.look_up_extcode()")
-    # ------------------------
-
-    ext_code = input("What is the External Code of the item you are looking for")
-
-    conn = sqlite3.connect('InventoryApp_DB.db')
-    cur = conn.cursor()
-
-    if isinstance(ext_code, str):
-        cur.execute('''Select i.id, i.name, l.name as Location, external_code, model, quantity
-             FROM Items as i 
-             LEFT JOIN location AS l
-             ON location_id = l.id
-
-            WHERE i.external_code = ?''', (ext_code,))
-
-    rows = cur.fetchall()
-    cur.close()
-    conn.close()
-
-    print(rows)
-    return rows
-
-
-def look_up_description(description):
-    print("db.look_up_description()")
-    # ------------------------
-
-    description = input("What is the Description of the item you are looking for")
-
-    conn = sqlite3.connect('InventoryApp_DB.db')
-    cur = conn.cursor()
-
-    if isinstance(description, str):
-        cur.execute('''Select i.id, i.name, l.name as Location, external_code, model, quantity, i.description
-             FROM Items as i 
-             LEFT JOIN location AS l
-             ON location_id = l.id
-
-            WHERE i.description LIKE ?''', ("%" + description + "%",))
+            WHERE i.{variable} LIKE ?''', ("%" + name + "%",))
 
     rows = cur.fetchall()
     cur.close()
