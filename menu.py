@@ -195,34 +195,17 @@ def look_up():
             name = input(f"What is the {look_up_method} of the item you are looking for")
             items = DB.look_up(look_up_method, name)
 
-            if items and len(items) > 1:
+            if items:
 
                 i = 0
                 print("1, Items found by the Look up name function:")
+                print("| No  |     Name     |     External Code     |     Description     |     Location     |     Model     |     Quantity     |")
                 for item in items:
-                    print(f'''
-                        item: {i + 1}
-                        Name: {item[1]}
-                        Location: {item[2]}
-                        External code: {item[3]}
-                        Model: {item[4]}
-                    ''')
-                    i = i + 1
+                    print(
+                        f"| {i + 1}  |     {item[1]}     |     {item[3]}     |     {item[6]}     |     {item[2]}     |     {item[4]}     |     {item[5]}     |")
 
                 choice = int(input("input the item number of the desired item"))
                 return items[choice - 1]
-
-            elif items:
-                print(f'''
-                        2, Item found by the Look up name function:
-
-                        Name: {items[0][1]}
-                        Location: {items[0][2]}
-                        External code: {items[0][3]}
-                        Model: {items[0][4]}
-                    ''')
-
-                return items[0]
 
             else:
                 print("Item not found")
