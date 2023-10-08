@@ -199,19 +199,18 @@ def look_up():
 
                 i = 0
                 print("1, Items found by the Look up name function:")
-                print("| No  |     Name     |     External Code     |     Description     |     Location     |     Model     |     Quantity     |")
+                print("| No  |    Name     |   External Code   |     Description     |     Location     |     Model     |     Quantity     |")
                 for item in items:
                     print(
-                        f"| {i + 1}  |     {item[1]}     |     {item[3]}     |     {item[6]}     |     {item[2]}     |     {item[4]}     |     {item[5]}     |")
+                        f"| {i:<3} | {item[1]:<11} | {item[3]:<17} | {item[6]:<19} | {item[2]:<16} | {item[4]:<13} | {item[5]:<16} |")
 
+                    i = 1 + i
                 choice = int(input("input the item number of the desired item"))
                 return items[choice - 1]
 
             else:
                 print("Item not found")
                 return None
-
-            # return item
 
         elif button == '0':
             # Quit the program
