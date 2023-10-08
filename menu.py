@@ -188,8 +188,42 @@ def look_up():
         if look_up_method:
             print("button selected: ", button)
             print(options[button])
-            item = look_up_method()
-            return item
+            items = look_up_method()
+
+            if items and len(items) > 1:
+
+                i = 0
+                print("1, Items found by the Look up name function:")
+                for item in items:
+                    print(f'''
+                        item: {i + 1}
+                        Name: {item[1]}
+                        Location: {item[2]}
+                        External code: {item[3]}
+                        Model: {item[4]}
+                    ''')
+                    i = i + 1
+
+                choice = int(input("input the item number of the desired item"))
+                return items[choice - 1]
+
+            elif items:
+                print(f'''
+                        2, Item found by the Look up name function:
+
+                        Name: {items[0][1]}
+                        Location: {items[0][2]}
+                        External code: {items[0][3]}
+                        Model: {items[0][4]}
+                    ''')
+
+                return items[0]
+
+            else:
+                print("Item not found")
+                return None
+
+            # return item
 
         elif button == '0':
             # Quit the program

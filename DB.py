@@ -273,9 +273,9 @@ def subtract_quantity(item_id, subtract):
             print("This is not a valid option")
             subtract_quantity(item_id, subtract)
 
+#def edit_item():
 
-# ===========================================================================
-#  supporting FUNCTIONS
+    #  supporting FUNCTIONS
 
 def look_up_id(code):
     conn = sqlite3.connect('InventoryApp_DB.db')
@@ -336,11 +336,11 @@ def look_up_id(code):
         return None
 
 
-def look_up_name():
+def look_up_name(name):
     print("db.look_up_name()")
     # ------------------------
 
-    name = input("What is the name of the item you are looking for")
+    name = input("What is the name of the item you are looking for") #*******
 
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
@@ -358,42 +358,10 @@ def look_up_name():
     conn.close()
 
     print(rows)
-
-    if rows and len(rows) > 1:
-
-        i = 0
-        print("1, Items found by the Look up name function:")
-        for row in rows:
-            print(f'''
-                item: {i + 1}
-                Name: {row[1]}
-                Location: {row[2]}
-                External code: {row[3]}
-                Model: {row[4]}
-            ''')
-            i = i + 1
-
-        choice = int(input("input the item number of the desired item"))
-        return rows[choice - 1]
-
-    elif rows:
-        print(f'''
-                2, Item found by the Look up name function:
-                
-                Name: {rows[0][1]}
-                Location: {rows[0][2]}
-                External code: {rows[0][3]}
-                Model: {rows[0][4]}
-            ''')
-
-        return rows[0]
-
-    else:
-        print("Item not found")
-        return None
+    return rows
 
 
-def look_up_extcode():
+def look_up_extcode(ext_code):
     print("db.look_up_extcode()")
     # ------------------------
 
@@ -415,42 +383,10 @@ def look_up_extcode():
     conn.close()
 
     print(rows)
-
-    if rows and len(rows) > 1:
-
-        i = 0
-        print("1, Items found by the Look up name function:")
-        for row in rows:
-            print(f'''
-                item: {i + 1}
-                Name: {row[1]}
-                Location: {row[2]}
-                External code: {row[3]}
-                Model: {row[4]}
-            ''')
-            i = i + 1
-
-        choice = int(input("input the item number of the desired item"))
-        return rows[choice - 1]
-
-    elif rows:
-        print(f'''
-                2, Item found by the Look up name function:
-
-                Name: {rows[0][1]}
-                Location: {rows[0][2]}
-                External code: {rows[0][3]}
-                Model: {rows[0][4]}
-            ''')
-
-        return rows[0]
-
-    else:
-        print("Item not found")
-        return None
+    return rows
 
 
-def look_up_description():
+def look_up_description(description):
     print("db.look_up_description()")
     # ------------------------
 
@@ -472,39 +408,8 @@ def look_up_description():
     conn.close()
 
     print(rows)
+    return rows
 
-    if rows and len(rows) > 1:
-
-        i = 0
-        print("1, Items found by the Look up name function:")
-        for row in rows:
-            print(f'''
-                item: {i + 1}
-                Name: {row[1]}
-                Location: {row[2]}
-                External code: {row[3]}
-                Model: {row[4]}
-            ''')
-            i = i + 1
-
-        choice = int(input("input the item number of the desired item"))
-        return rows[choice - 1]
-
-    elif rows:
-        print(f'''
-                2, Item found by the Look up name function:
-
-                Name: {rows[0][1]}
-                Location: {rows[0][2]}
-                External code: {rows[0][3]}
-                Model: {rows[0][4]}
-            ''')
-
-        return rows[0]
-
-    else:
-        print("Item not found")
-        return None
 
 def filter_by(table):
     conn = sqlite3.connect("InventoryApp_DB.db")
@@ -515,25 +420,27 @@ def filter_by(table):
     cur.execute(unique_names)
     items = cur.fetchall()
     return items
-    # for name in names:
-    #     print("#", name[0], " Name:", name[1])
-    # look_ = int(input("Select the # to filter"))
 
-    # query = f'''SELECT i.name, description, location_id, quantity, t.name
-    #         FROM Items as i
-    #         LEFT JOIN {table}  as t
-    #         ON {table}_id = t.id
-    #         WHERE i.id = ?'''
-    # cur.execute(query, (look,))
-    #
-    # rows = cur.fetchall()
-    #
-    # cur.close()
-    # conn.close()
-    #
-    #
-    #
-    # return rows
+
+    for name in names:
+        print("#", name[0], " Name:", name[1])
+    look_ = int(input("Select the # to filter"))
+
+    query = f'''SELECT i.name, description, location_id, quantity, t.name
+            FROM Items as i
+            LEFT JOIN {table}  as t
+            ON {table}_id = t.id
+            WHERE i.id = ?'''
+    cur.execute(query, (look,))
+
+    rows = cur.fetchall()
+
+    cur.close()
+    conn.close()
+
+
+
+    return rows
 
 
 def subtract_log(item_id, old_quantity, subtracted_quantity, new_quantity):
@@ -577,7 +484,7 @@ def add_log(item_id, old_quantity, added_quantity, new_quantity):
 
 
 # ===========================================================================================
-# Legacy
+# Debugging
 def check_item(item):
     conn = sqlite3.connect('InventoryApp_DB.db')
     cur = conn.cursor()
