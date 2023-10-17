@@ -273,9 +273,25 @@ def subtract_quantity(item_id, subtract):
             print("This is not a valid option")
             subtract_quantity(item_id, subtract)
 
-#def edit_item():
 
-    #  supporting FUNCTIONS
+def edit_entry(table, variable, new_data,item_id):
+
+    conn = sqlite3.connect('your_database.db')
+    cursor = conn.cursor()
+
+    update_sql = f"""
+        UPDATE {table}
+        SET {variable} = {new_data}
+        WHERE item_id = {item_id};
+    """
+
+    cursor.execute(update_sql)
+
+    conn.commit()
+
+    cursor.close()
+    conn.close()
+
 
 def look_up_id(code):
     conn = sqlite3.connect('InventoryApp_DB.db')
@@ -385,8 +401,6 @@ def filter_by(table):
 
     cur.close()
     conn.close()
-
-
 
     return rows
 
